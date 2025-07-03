@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 
 import { AuthController } from './auth.controller';
 import { User } from './entities';
-import { JwtStrategy } from './strategies';
+import { SecurityModule } from '../security';
 import {
   CreateGoogleUserHandler,
   LoginGoogleUserHandler,
@@ -21,23 +18,9 @@ const CommandHandlers = [
 ];
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
-        },
-      }),
-      inject: [ConfigService],
-    }),
-    CqrsModule,
-  ],
+  imports: [TypeOrmModule.forFeature([User]), SecurityModule, CqrsModule],
   controllers: [AuthController],
-  providers: [JwtStrategy, ...CommandHandlers],
-  exports: [JwtModule, PassportModule, TypeOrmModule],
+  providers: [...CommandHandlers],
+  exports: [TypeOrmModule, SecurityModule],
 })
 export class AuthModule {}

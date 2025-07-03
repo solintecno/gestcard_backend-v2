@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Logger,
+  UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -15,11 +16,12 @@ import {
 } from '@nestjs/swagger';
 import { GoogleAuthDto, LoginResponseDto, ErrorResponseDto } from './dto';
 import { CreateGoogleUserCommand, LoginGoogleUserCommand } from './commands';
-
+import { JwtAuthGuard, RolesGuard, Public } from '../security';
 import { User } from './entities';
 
 @ApiTags('auth')
 @Controller('auth')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 
@@ -28,7 +30,8 @@ export class AuthController {
     private readonly queryBus: QueryBus,
   ) {}
 
-  @Post('google')
+  @Public()
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Autenticación con Google',
