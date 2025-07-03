@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+dist
+.git
+.gitignore
+README.md
+README_NEW.md
+DOCKER.md
+.env
+.env.example
+.nyc_output
+coverage
+.vscode
+.idea
+*.log
+.DS_Store
+Thumbs.db

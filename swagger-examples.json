@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "GestCard API - Ejemplos",
+    "description": "Colección de ejemplos para probar la API de GestCard",
+    "version": "1.0.0"
+  },
+  "examples": {
+    "register_user": {
+      "summary": "Registrar usuario normal",
+      "description": "Ejemplo para registrar un usuario con rol 'user'",
+      "value": {
+        "email": "juan.perez@ejemplo.com",
+        "password": "miPassword123",
+        "firstName": "Juan",
+        "lastName": "Pérez",
+        "role": "user"
+      }
+    },
+    "register_admin": {
+      "summary": "Registrar administrador",
+      "description": "Ejemplo para registrar un usuario con rol 'admin'",
+      "value": {
+        "email": "admin.nuevo@ejemplo.com",
+        "password": "AdminPassword123!",
+        "firstName": "Admin",
+        "lastName": "Nuevo",
+        "role": "admin"
+      }
+    },
+    "login_user": {
+      "summary": "Login usuario",
+      "description": "Ejemplo de login con credenciales de usuario",
+      "value": {
+        "email": "juan.perez@ejemplo.com",
+        "password": "miPassword123"
+      }
+    },
+    "login_admin": {
+      "summary": "Login administrador por defecto",
+      "description": "Login con el administrador creado por defecto",
+      "value": {
+        "email": "admin@gestcard.com",
+        "password": "Admin123!"
+      }
+    },
+    "forgot_password": {
+      "summary": "Recuperar contraseña",
+      "description": "Solicitar token de recuperación de contraseña",
+      "value": {
+        "email": "juan.perez@ejemplo.com"
+      }
+    },
+    "reset_password": {
+      "summary": "Restablecer contraseña",
+      "description": "Usar token para restablecer contraseña",
+      "value": {
+        "token": "abc123-def456-ghi789",
+        "password": "nuevaPassword123"
+      }
+    }
+  },
+  "responses": {
+    "register_success": {
+      "summary": "Registro exitoso",
+      "value": {
+        "message": "User registered successfully",
+        "user": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "email": "juan.perez@ejemplo.com",
+          "firstName": "Juan",
+          "lastName": "Pérez",
+          "role": "user",
+          "isActive": true,
+          "emailVerified": false,
+          "createdAt": "2024-01-01T10:00:00.000Z",
+          "updatedAt": "2024-01-01T10:00:00.000Z"
+        }
+      }
+    },
+    "login_success": {
+      "summary": "Login exitoso",
+      "value": {
+        "message": "Login successful",
+        "user": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "email": "juan.perez@ejemplo.com",
+          "firstName": "Juan",
+          "lastName": "Pérez",
+          "role": "user",
+          "isActive": true,
+          "emailVerified": false,
+          "createdAt": "2024-01-01T10:00:00.000Z",
+          "updatedAt": "2024-01-01T10:00:00.000Z"
+        },
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjNlNDU2Ny1lODliLTEyZDMtYTQ1Ni00MjY2MTQxNzQwMDAiLCJlbWFpbCI6Imp1YW4ucGVyZXpAZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY0MTAzNjAwMCwiZXhwIjoxNjQxNjQwODAwfQ.example-signature"
+      }
+    },
+    "profile_response": {
+      "summary": "Perfil de usuario",
+      "value": {
+        "user": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "email": "juan.perez@ejemplo.com",
+          "firstName": "Juan",
+          "lastName": "Pérez",
+          "role": "user",
+          "isActive": true,
+          "emailVerified": false,
+          "createdAt": "2024-01-01T10:00:00.000Z",
+          "updatedAt": "2024-01-01T10:00:00.000Z"
+        }
+      }
+    },
+    "admin_only_response": {
+      "summary": "Respuesta endpoint admin",
+      "value": {
+        "message": "This endpoint is only accessible to admins"
+      }
+    },
+    "forgot_password_response": {
+      "summary": "Respuesta recuperar contraseña",
+      "value": {
+        "message": "Password reset instructions have been sent to your email"
+      }
+    },
+    "reset_password_response": {
+      "summary": "Respuesta restablecer contraseña",
+      "value": {
+        "message": "Password has been successfully reset"
+      }
+    }
+  },
+  "errors": {
+    "validation_error": {
+      "summary": "Error de validación",
+      "value": {
+        "statusCode": 400,
+        "message": [
+          "email must be an email",
+          "password must be longer than or equal to 6 characters"
+        ],
+        "error": "Bad Request",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/register"
+      }
+    },
+    "email_exists": {
+      "summary": "Email ya existe",
+      "value": {
+        "statusCode": 409,
+        "message": "User with this email already exists",
+        "error": "Conflict",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/register"
+      }
+    },
+    "invalid_credentials": {
+      "summary": "Credenciales inválidas",
+      "value": {
+        "statusCode": 401,
+        "message": "Invalid credentials",
+        "error": "Unauthorized",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/login"
+      }
+    },
+    "unauthorized": {
+      "summary": "No autorizado",
+      "value": {
+        "statusCode": 401,
+        "message": "Unauthorized",
+        "error": "Unauthorized",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/profile"
+      }
+    },
+    "forbidden": {
+      "summary": "Acceso denegado",
+      "value": {
+        "statusCode": 403,
+        "message": "Forbidden resource",
+        "error": "Forbidden",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/admin-only"
+      }
+    },
+    "user_not_found": {
+      "summary": "Usuario no encontrado",
+      "value": {
+        "statusCode": 404,
+        "message": "User not found",
+        "error": "Not Found",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/forgot-password"
+      }
+    },
+    "invalid_token": {
+      "summary": "Token inválido",
+      "value": {
+        "statusCode": 400,
+        "message": "Invalid or expired reset token",
+        "error": "Bad Request",
+        "timestamp": "2024-01-01T10:00:00.000Z",
+        "path": "/auth/reset-password"
+      }
+    }
+  },
+  "test_scenarios": [
+    {
+      "name": "Flujo completo de usuario",
+      "steps": [
+        "1. Registrar nuevo usuario con POST /auth/register",
+        "2. Hacer login con POST /auth/login",
+        "3. Copiar accessToken de la respuesta",
+        "4. Autorizar en Swagger con 'Bearer {token}'",
+        "5. Obtener perfil con GET /auth/profile",
+        "6. Obtener info detallada con GET /auth/user-info"
+      ]
+    },
+    {
+      "name": "Flujo de administrador",
+      "steps": [
+        "1. Login con admin@gestcard.com / Admin123!",
+        "2. Autorizar en Swagger con el token recibido",
+        "3. Acceder a GET /auth/admin-only",
+        "4. Verificar que devuelve mensaje de éxito"
+      ]
+    },
+    {
+      "name": "Flujo de recuperación de contraseña",
+      "steps": [
+        "1. Solicitar recuperación con POST /auth/forgot-password",
+        "2. En un escenario real, revisar email para obtener token",
+        "3. Usar POST /auth/reset-password con el token",
+        "4. Hacer login con la nueva contraseña"
+      ]
+    },
+    {
+      "name": "Pruebas de seguridad",
+      "steps": [
+        "1. Intentar acceder a /auth/profile sin token (debe dar 401)",
+        "2. Usar token inválido (debe dar 401)",
+        "3. Usuario normal intentar acceder a /auth/admin-only (debe dar 403)",
+        "4. Registrar usuario con email duplicado (debe dar 409)"
+      ]
+    }
+  ]
+}
