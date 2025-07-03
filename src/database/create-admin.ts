@@ -34,7 +34,6 @@ async function createAdminUser() {
       lastName: 'User',
       role: UserRole.ADMIN,
       isActive: true,
-      emailVerified: true,
     });
 
     await userRepository.save(adminUser);
