@@ -14,10 +14,11 @@ import {
   ApiResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
-import { GoogleAuthDto, LoginResponseDto, ErrorResponseDto } from './dto';
+import { GoogleAuthDto, LoginResponseDto } from './dto';
 import { CreateGoogleUserCommand, LoginGoogleUserCommand } from './commands';
 import { JwtAuthGuard, RolesGuard, Public } from '../security';
 import { User } from './entities';
+import { ErrorResponseDto } from '../common';
 
 @ApiTags('auth')
 @Controller('auth')

@@ -9,7 +9,7 @@ export class ErrorResponseDto {
 
   @ApiProperty({
     description: 'Mensaje de error',
-    example: 'Bad Request',
+    example: 'Validation failed',
   })
   message: string | string[];
 
@@ -21,13 +21,8 @@ export class ErrorResponseDto {
 
   @ApiProperty({
     description: 'Timestamp del error',
-    example: '2024-01-01T00:00:00.000Z',
+    example: '2023-01-01T00:00:00.000Z',
+    required: false,
   })
-  timestamp: string;
-
-  @ApiProperty({
-    description: 'Ruta donde ocurrió el error',
-    example: '/auth/login',
-  })
-  path: string;
+  timestamp?: string;
 }
