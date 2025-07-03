@@ -3,8 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/entities';
 import { Skill } from './skills/entities';
+import { JobOffer } from './job-offers/entities';
 import { AuthModule } from './auth/auth.module';
 import { SkillsModule } from './skills/skills.module';
+import { JobOffersModule } from './job-offers/job-offers.module';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { SkillsModule } from './skills/skills.module';
         username: configService.get('DATABASE_USERNAME'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [User, Skill],
+        entities: [User, Skill, JobOffer],
         synchronize: configService.get('NODE_ENV') === 'development',
         ssl:
           configService.get('NODE_ENV') === 'production'
@@ -33,6 +35,7 @@ import { SkillsModule } from './skills/skills.module';
     }),
     AuthModule,
     SkillsModule,
+    JobOffersModule,
   ],
 })
 export class AppModule {}
