@@ -25,7 +25,7 @@ import { User } from './auth/entities';
           configService.get('NODE_ENV') === 'production'
             ? { rejectUnauthorized: false }
             : false,
-        //logging: configService.get('NODE_ENV') === 'development',
+        logging: configService.get('NODE_ENV') === 'development',
       }),
       inject: [ConfigService],
     }),

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
@@ -16,6 +16,8 @@ interface JwtPayload {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  private readonly logger = new Logger(JwtStrategy.name);
+
   constructor(
     private readonly configService: ConfigService,
     private readonly queryBus: QueryBus,
@@ -30,17 +32,41 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: secret,
     });
+
+    this.logger.log('JWT Strategy initialized');
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    const user = await this.queryBus.execute<GetUserByIdQuery, User | null>(
-      new GetUserByIdQuery(payload.sub),
+    const startTime = Date.now();
+    this.logger.debug(
+      `JWT validation for user: ${payload.sub} (${payload.email})`,
     );
 
-    if (!user || !user.isActive) {
-      throw new UnauthorizedException('User not found or inactive');
-    }
+    try {
+      const user = await this.queryBus.execute<GetUserByIdQuery, User | null>(
+        new GetUserByIdQuery(payload.sub),
+      );
 
-    return user;
+      if (!user || !user.isActive) {
+        this.logger.warn(
+          `JWT validation failed - User not found or inactive: ${payload.sub}`,
+        );
+        throw new UnauthorizedException('User not found or inactive');
+      }
+
+      const duration = Date.now() - startTime;
+      this.logger.debug(
+        `JWT validation successful for user: ${user.id} in ${duration}ms`,
+      );
+
+      return user;
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      this.logger.error(
+        `JWT validation failed for user ${payload.sub} after ${duration}ms: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        error instanceof Error ? error.stack : undefined,
+      );
+      throw error;
+    }
   }
 }
