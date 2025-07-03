@@ -7,28 +7,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 import { AuthController } from './auth.controller';
 import { User } from './entities';
-import { LocalStrategy, JwtStrategy } from './strategies';
+import { JwtStrategy } from './strategies';
 import {
-  RegisterUserHandler,
-  LoginUserHandler,
-  ForgotPasswordHandler,
-  ResetPasswordHandler,
+  CreateGoogleUserHandler,
+  LoginGoogleUserHandler,
   GetUserByIdHandler,
-  GetUserByEmailHandler,
-  ValidateUserHandler,
 } from './handlers';
 
 const CommandHandlers = [
-  RegisterUserHandler,
-  LoginUserHandler,
-  ForgotPasswordHandler,
-  ResetPasswordHandler,
-];
-
-const QueryHandlers = [
+  CreateGoogleUserHandler,
+  LoginGoogleUserHandler,
   GetUserByIdHandler,
-  GetUserByEmailHandler,
-  ValidateUserHandler,
 ];
 
 @Module({
@@ -48,7 +37,7 @@ const QueryHandlers = [
     CqrsModule,
   ],
   controllers: [AuthController],
-  providers: [LocalStrategy, JwtStrategy, ...CommandHandlers, ...QueryHandlers],
+  providers: [JwtStrategy, ...CommandHandlers],
   exports: [JwtModule, PassportModule, TypeOrmModule],
 })
 export class AuthModule {}

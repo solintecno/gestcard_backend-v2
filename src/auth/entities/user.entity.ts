@@ -36,17 +36,8 @@ export class User {
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 
-  @Column({ default: false, name: 'email_verified' })
-  emailVerified: boolean;
-
-  @Column({ nullable: true, name: 'email_verification_token' })
-  emailVerificationToken?: string;
-
-  @Column({ nullable: true, name: 'reset_password_token' })
-  resetPasswordToken?: string;
-
-  @Column({ nullable: true, name: 'reset_password_expires' })
-  resetPasswordExpires?: Date;
+  @Column({ nullable: true, name: 'profile_picture' })
+  profilePicture?: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
