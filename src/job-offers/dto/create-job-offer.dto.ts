@@ -3,11 +3,9 @@ import {
   IsString,
   IsNotEmpty,
   IsOptional,
-  IsNumber,
   IsEnum,
   IsDateString,
   IsArray,
-  Min,
 } from 'class-validator';
 import { EmploymentType, JobOfferStatus } from '../../shared/enums';
 
@@ -32,11 +30,23 @@ export class CreateJobOfferDto {
   @IsNotEmpty()
   location: string;
 
-  @ApiPropertyOptional({ description: 'Salario ofrecido' })
+  @ApiPropertyOptional({
+    description:
+      'Salario ofrecido con moneda (ej: "$50,000", "€45,000", "₡500,000")',
+    example: '$50,000',
+  })
   @IsOptional()
-  @IsNumber()
-  @Min(0)
-  salary?: number;
+  @IsString()
+  salary?: string;
+
+  @ApiPropertyOptional({
+    description: 'Moneda del salario (ej: "USD", "EUR", "CUP")',
+    example: 'USD',
+  })
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  currency?: string;
 
   @ApiPropertyOptional({
     description: 'Tipo de empleo',

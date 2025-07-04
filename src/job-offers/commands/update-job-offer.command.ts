@@ -7,7 +7,7 @@ export class UpdateJobOfferCommand {
     public readonly description?: string,
     public readonly company?: string,
     public readonly location?: string,
-    public readonly salary?: number,
+    public readonly salary?: string,
     public readonly employmentType?: EmploymentType,
     public readonly status?: JobOfferStatus,
     public readonly requirements?: string[],

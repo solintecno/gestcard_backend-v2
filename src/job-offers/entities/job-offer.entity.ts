@@ -36,8 +36,11 @@ export class JobOffer {
   @Column()
   location: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  salary?: number;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  salary?: string;
+
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  currency?: string;
 
   @Column({ type: 'varchar', length: 20, default: EmploymentType.FULL_TIME })
   employmentType: EmploymentType;

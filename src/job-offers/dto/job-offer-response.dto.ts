@@ -19,7 +19,7 @@ export class JobOfferResponseDto {
   location: string;
 
   @ApiPropertyOptional({ description: 'Salario' })
-  salary?: number;
+  salary?: string;
 
   @ApiProperty({ description: 'Tipo de empleo', enum: EmploymentType })
   employmentType: EmploymentType;
