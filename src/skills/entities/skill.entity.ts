@@ -7,6 +7,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { JobOffer } from '../../job-offers/entities';
+import { Candidate } from 'src/candidates';
 
 @Entity('skills')
 export class Skill {
@@ -28,6 +29,10 @@ export class Skill {
   // Ofertas de trabajo que requieren esta habilidad
   @ManyToMany(() => JobOffer, (jobOffer) => jobOffer.skills)
   jobOffers: JobOffer[];
+
+  // Candidatos que tienen esta habilidad
+  @ManyToMany('Candidate', 'skills')
+  candidates: Candidate[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

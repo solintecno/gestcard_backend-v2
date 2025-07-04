@@ -6,11 +6,14 @@ import {
   UpdateDateColumn,
   OneToMany,
   OneToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Education } from './education.entity';
 import { WorkExperience } from './work-experience.entity';
 import { User } from '../../auth/entities/user.entity';
 import { JobApplication } from '../../job-offers/entities/job-application.entity';
+import { Skill } from 'src/skills';
 
 @Entity('candidates')
 export class Candidate {
@@ -29,8 +32,22 @@ export class Candidate {
   @Column({ type: 'text', nullable: true })
   summary?: string;
 
-  @Column({ type: 'jsonb', nullable: true })
-  skills?: string[];
+  // Relación muchos a muchos con Skills
+  @ManyToMany('Skill', 'candidates', {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'candidate_skills',
+    joinColumn: {
+      name: 'candidate_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'skill_id',
+      referencedColumnName: 'id',
+    },
+  })
+  skills: Skill[];
 
   // Relación uno a uno con User
   @OneToOne(() => User, (u) => u.candidate)
