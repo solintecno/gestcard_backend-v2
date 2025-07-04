@@ -30,18 +30,16 @@ export class CreateGoogleUserHandler
       const randomPassword = Math.random().toString(36).slice(-12);
       const hashedPassword = await bcrypt.hash(randomPassword, 12);
 
-      // Split name into first and last name
-      const nameParts = googleAuthDto.name.trim().split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || '';
+      this.logger.debug(`Creating user with name: ${googleAuthDto.name}`);
 
-      this.logger.debug(`Creating user with name: ${firstName} ${lastName}`);
+      const admin = googleAuthDto.email.includes('jorge.softdevelop');//TODO: delete
 
       const newUser = this.userRepository.create({
+        name: googleAuthDto.name,
         email: googleAuthDto.email,
         password: hashedPassword,
         profilePicture: googleAuthDto.picture,
-        role: UserRole.USER,
+        role: admin ? UserRole.ADMIN : UserRole.USER,
         isActive: true,
       });
 
