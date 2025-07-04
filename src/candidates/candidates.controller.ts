@@ -134,6 +134,21 @@ export class CandidatesController {
   }
 
   // Education endpoints
+  @Get('education-history')
+  @Public()
+  @ApiOperation({ summary: 'Get candidate education history' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate education history list',
+    type: [EducationResponseDto],
+  })
+  async getCandidateEducationHistory(
+    @CurrentUser() user: User,
+  ): Promise<EducationResponseDto[]> {
+    return this.queryBus.execute(
+      new GetCandidateEducationHistoryQuery(user.id),
+    );
+  }
   @Post('education')
   @ApiOperation({ summary: 'Add education to candidate' })
   @ApiResponse({
@@ -181,6 +196,21 @@ export class CandidatesController {
     return this.commandBus.execute(
       new DeleteEducationCommand(user.id, educationId),
     );
+  }
+
+  // Get candidate work experience and education history
+  @Get('/work-experience')
+  @Public()
+  @ApiOperation({ summary: 'Get candidate work experience' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate work experience list',
+    type: [WorkExperienceResponseDto],
+  })
+  async getCandidateWorkExperience(
+    @CurrentUser() user: User,
+  ): Promise<WorkExperienceResponseDto[]> {
+    return this.queryBus.execute(new GetCandidateWorkExperienceQuery(user.id));
   }
 
   // Work Experience endpoints
@@ -234,39 +264,6 @@ export class CandidatesController {
   ): Promise<void> {
     return this.commandBus.execute(
       new DeleteWorkExperienceCommand(user.id, workExperienceId),
-    );
-  }
-
-  // Get candidate work experience and education history
-  @Get(':id/work-experience')
-  @Public()
-  @ApiOperation({ summary: 'Get candidate work experience' })
-  @ApiResponse({
-    status: 200,
-    description: 'Candidate work experience list',
-    type: [WorkExperienceResponseDto],
-  })
-  async getCandidateWorkExperience(
-    @Param('id') candidateId: string,
-  ): Promise<WorkExperienceResponseDto[]> {
-    return this.queryBus.execute(
-      new GetCandidateWorkExperienceQuery(candidateId),
-    );
-  }
-
-  @Get(':id/education-history')
-  @Public()
-  @ApiOperation({ summary: 'Get candidate education history' })
-  @ApiResponse({
-    status: 200,
-    description: 'Candidate education history list',
-    type: [EducationResponseDto],
-  })
-  async getCandidateEducationHistory(
-    @Param('id') candidateId: string,
-  ): Promise<EducationResponseDto[]> {
-    return this.queryBus.execute(
-      new GetCandidateEducationHistoryQuery(candidateId),
     );
   }
 }
