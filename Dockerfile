@@ -1,5 +1,5 @@
 # Etapa de construcción
-FROM node:18-alpine AS builder
+FROM node:21-alpine AS builder
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ COPY . .
 RUN pnpm run build
 
 # Etapa de producción
-FROM node:18-alpine AS production
+FROM node:21-alpine AS production
 
 WORKDIR /app
 
@@ -44,11 +44,11 @@ RUN chown -R nestjs:nodejs /app
 USER nestjs
 
 # Exponer puerto
-EXPOSE 3000
+EXPOSE 3001
 
 # Variables de entorno por defecto
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=3001
 
 # Comando de inicio
 CMD ["node", "dist/main"]

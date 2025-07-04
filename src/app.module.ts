@@ -42,11 +42,7 @@ import { AdminModule } from './admin/admin.module';
           WorkExperience,
           CandidateRating,
         ],
-        synchronize: configService.get('NODE_ENV') === 'development',
-        ssl:
-          configService.get('NODE_ENV') === 'production'
-            ? { rejectUnauthorized: false }
-            : false,
+        synchronize: true,
         //logging: configService.get('NODE_ENV') === 'development',
       }),
     }),
