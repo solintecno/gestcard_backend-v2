@@ -1,6 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { EducationResponseDto } from './education-response.dto';
-import { WorkExperienceResponseDto } from './work-experience-response.dto';
 
 export class CandidateResponseDto {
   @ApiProperty({ description: 'Unique identifier' })
@@ -27,18 +25,6 @@ export class CandidateResponseDto {
     example: 4.5,
   })
   rating?: number | null;
-
-  @ApiProperty({
-    description: 'Work experience',
-    required: false,
-  })
-  workExperience: WorkExperienceResponseDto[];
-
-  @ApiProperty({
-    description: 'Education history',
-    type: [EducationResponseDto],
-  })
-  educationHistory: EducationResponseDto[];
 
   @ApiProperty({ description: 'Creation date' })
   createdAt: Date;

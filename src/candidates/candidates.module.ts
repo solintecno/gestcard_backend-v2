@@ -15,6 +15,8 @@ import {
   CreateWorkExperienceHandler,
   UpdateWorkExperienceHandler,
   DeleteWorkExperienceHandler,
+  GetCandidateWorkExperienceHandler,
+  GetCandidateEducationHistoryHandler,
 } from './handlers';
 
 const CommandHandlers = [
@@ -29,7 +31,12 @@ const CommandHandlers = [
   DeleteWorkExperienceHandler,
 ];
 
-const QueryHandlers = [GetCandidateByIdHandler, GetCandidatesHandler];
+const QueryHandlers = [
+  GetCandidateByIdHandler,
+  GetCandidatesHandler,
+  GetCandidateWorkExperienceHandler,
+  GetCandidateEducationHistoryHandler,
+];
 
 @Module({
   imports: [

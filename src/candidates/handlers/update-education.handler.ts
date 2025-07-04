@@ -15,7 +15,9 @@ export class UpdateEducationHandler
     private readonly educationRepository: Repository<Education>,
   ) {}
 
-  async execute(command: UpdateEducationCommand): Promise<EducationResponseDto> {
+  async execute(
+    command: UpdateEducationCommand,
+  ): Promise<EducationResponseDto> {
     const { educationId, updateEducationDto } = command;
 
     const education = await this.educationRepository.findOne({

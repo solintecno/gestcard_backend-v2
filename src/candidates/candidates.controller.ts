@@ -45,7 +45,12 @@ import {
   UpdateWorkExperienceCommand,
   DeleteWorkExperienceCommand,
 } from './commands';
-import { GetCandidateByIdQuery, GetCandidatesQuery } from './queries';
+import {
+  GetCandidateByIdQuery,
+  GetCandidatesQuery,
+  GetCandidateWorkExperienceQuery,
+  GetCandidateEducationHistoryQuery,
+} from './queries';
 
 @ApiTags('candidates')
 @Controller('candidates')
@@ -66,9 +71,10 @@ export class CandidatesController {
   })
   async createCandidate(
     @Body() createCandidateDto: CreateCandidateDto,
+    @CurrentUser() user: User, // Assuming you want to associate the candidate with the current user
   ): Promise<CandidateResponseDto> {
     return this.commandBus.execute(
-      new CreateCandidateCommand(createCandidateDto),
+      new CreateCandidateCommand(createCandidateDto, user.id),
     );
   }
 
@@ -228,6 +234,39 @@ export class CandidatesController {
   ): Promise<void> {
     return this.commandBus.execute(
       new DeleteWorkExperienceCommand(user.id, workExperienceId),
+    );
+  }
+
+  // Get candidate work experience and education history
+  @Get(':id/work-experience')
+  @Public()
+  @ApiOperation({ summary: 'Get candidate work experience' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate work experience list',
+    type: [WorkExperienceResponseDto],
+  })
+  async getCandidateWorkExperience(
+    @Param('id') candidateId: string,
+  ): Promise<WorkExperienceResponseDto[]> {
+    return this.queryBus.execute(
+      new GetCandidateWorkExperienceQuery(candidateId),
+    );
+  }
+
+  @Get(':id/education-history')
+  @Public()
+  @ApiOperation({ summary: 'Get candidate education history' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate education history list',
+    type: [EducationResponseDto],
+  })
+  async getCandidateEducationHistory(
+    @Param('id') candidateId: string,
+  ): Promise<EducationResponseDto[]> {
+    return this.queryBus.execute(
+      new GetCandidateEducationHistoryQuery(candidateId),
     );
   }
 }

@@ -17,9 +17,10 @@ export class CreateCandidateHandler
   async execute(
     command: CreateCandidateCommand,
   ): Promise<CandidateResponseDto> {
-    const { createCandidateDto } = command;
+    const { createCandidateDto, userId } = command;
 
     const candidate = this.candidateRepository.create({
+      id: userId,
       ...createCandidateDto,
       dateOfBirth: createCandidateDto.dateOfBirth
         ? new Date(createCandidateDto.dateOfBirth)
@@ -39,28 +40,6 @@ export class CreateCandidateHandler
       dateOfBirth: candidate.dateOfBirth,
       summary: candidate.summary,
       skills: candidate.skills,
-      workExperience:
-        candidate.workExperience?.map((we) => ({
-          id: we.id,
-          company: we.company,
-          position: we.position,
-          startDate: we.startDate.toISOString().split('T')[0],
-          endDate: we.endDate?.toISOString().split('T')[0],
-          description: we.description,
-          location: we.location,
-          createdAt: we.createdAt,
-          updatedAt: we.updatedAt,
-        })) || [],
-      educationHistory:
-        candidate.educationHistory?.map((edu) => ({
-          id: edu.id,
-          institution: edu.institution,
-          field: edu.field,
-          startDate: edu.startDate,
-          endDate: edu.endDate,
-          createdAt: edu.createdAt,
-          updatedAt: edu.updatedAt,
-        })) || [],
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };

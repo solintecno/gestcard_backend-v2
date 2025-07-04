@@ -9,3 +9,5 @@ export * from './delete-education.handler';
 export * from './create-work-experience.handler';
 export * from './update-work-experience.handler';
 export * from './delete-work-experience.handler';
+export * from './get-candidate-work-experience.handler';
+export * from './get-candidate-education-history.handler';

@@ -15,12 +15,13 @@ export class UpdateCandidateHandler
     private readonly candidateRepository: Repository<Candidate>,
   ) {}
 
-  async execute(command: UpdateCandidateCommand): Promise<CandidateResponseDto> {
+  async execute(
+    command: UpdateCandidateCommand,
+  ): Promise<CandidateResponseDto> {
     const { id, updateCandidateDto } = command;
 
     const candidate = await this.candidateRepository.findOne({
       where: { id },
-      relations: ['workExperience', 'educationHistory'],
     });
 
     if (!candidate) {
@@ -46,28 +47,6 @@ export class UpdateCandidateHandler
       dateOfBirth: candidate.dateOfBirth,
       summary: candidate.summary,
       skills: candidate.skills,
-      workExperience:
-        candidate.workExperience?.map((we) => ({
-          id: we.id,
-          company: we.company,
-          position: we.position,
-          startDate: we.startDate.toISOString().split('T')[0],
-          endDate: we.endDate?.toISOString().split('T')[0],
-          description: we.description,
-          location: we.location,
-          createdAt: we.createdAt,
-          updatedAt: we.updatedAt,
-        })) || [],
-      educationHistory:
-        candidate.educationHistory?.map((edu) => ({
-          id: edu.id,
-          institution: edu.institution,
-          field: edu.field,
-          startDate: edu.startDate,
-          endDate: edu.endDate,
-          createdAt: edu.createdAt,
-          updatedAt: edu.updatedAt,
-        })) || [],
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };

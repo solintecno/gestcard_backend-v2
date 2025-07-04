@@ -20,7 +20,7 @@ export class GetCandidateByIdHandler
 
     const candidate = await this.candidateRepository.findOne({
       where: { id },
-      relations: ['workExperience', 'educationHistory', 'ratings'],
+      relations: ['ratings'],
     });
 
     if (!candidate) {
@@ -43,28 +43,6 @@ export class GetCandidateByIdHandler
           ? candidate.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
             candidate.ratings.length
           : null,
-      workExperience:
-        candidate.workExperience?.map((we) => ({
-          id: we.id,
-          company: we.company,
-          position: we.position,
-          startDate: we.startDate.toISOString().split('T')[0],
-          endDate: we.endDate?.toISOString().split('T')[0],
-          description: we.description,
-          location: we.location,
-          createdAt: we.createdAt,
-          updatedAt: we.updatedAt,
-        })) || [],
-      educationHistory:
-        candidate.educationHistory?.map((edu) => ({
-          id: edu.id,
-          institution: edu.institution,
-          field: edu.field,
-          startDate: edu.startDate,
-          endDate: edu.endDate,
-          createdAt: edu.createdAt,
-          updatedAt: edu.updatedAt,
-        })) || [],
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };
