@@ -22,6 +22,13 @@ export class CandidateResponseDto {
   skills?: string[];
 
   @ApiProperty({
+    description: 'Average rating of the candidate',
+    required: false,
+    example: 4.5,
+  })
+  rating?: number | null;
+
+  @ApiProperty({
     description: 'Work experience',
     required: false,
   })

@@ -9,3 +9,6 @@ export * from './education-response.dto';
 export * from './create-work-experience.dto';
 export * from './update-work-experience.dto';
 export * from './work-experience-response.dto';
+export * from './create-candidate-rating.dto';
+export * from './update-candidate-rating.dto';
+export * from './candidate-rating-response.dto';

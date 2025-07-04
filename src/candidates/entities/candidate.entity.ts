@@ -13,6 +13,7 @@ import { Education } from './education.entity';
 import { WorkExperience } from './work-experience.entity';
 import { User } from '../../auth/entities/user.entity';
 import { JobApplication } from '../../job-offers/entities/job-application.entity';
+import { CandidateRating } from './candidate-rating.entity';
 
 @Entity('candidates')
 export class Candidate {
@@ -77,6 +78,13 @@ export class Candidate {
     },
   )
   jobApplications: JobApplication[];
+
+  // Historial de valoraciones
+  @OneToMany(() => CandidateRating, (rating) => rating.candidate, {
+    cascade: true,
+    eager: true,
+  })
+  ratings?: CandidateRating[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
