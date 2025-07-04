@@ -65,11 +65,11 @@ jobs:
             
             # Detener el contenedor existente
             echo "Stopping the existing container..."
-            sudo docker rm -f backen_gestcad_dev > /dev/null 2>&1
+            docker rm -f backen_gestcad_dev > /dev/null 2>&1
             
             # Ejecutar el nuevo contenedor
             echo "Running the new container..."
-            sudo docker run -d --name backen_gestcad_dev --restart=always \
+            docker run -d --name backen_gestcad_dev --restart=always \
               -p 3001:3001 \
               --network gestcad_dev \
               -e DATABASE_HOST=localhost \
