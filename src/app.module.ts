@@ -19,6 +19,7 @@ import { AdminModule } from './admin/admin.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DATABASE_HOST'),
@@ -40,9 +41,8 @@ import { AdminModule } from './admin/admin.module';
           configService.get('NODE_ENV') === 'production'
             ? { rejectUnauthorized: false }
             : false,
-        logging: configService.get('NODE_ENV') === 'development',
+        //logging: configService.get('NODE_ENV') === 'development',
       }),
-      inject: [ConfigService],
     }),
     AuthModule,
     SkillsModule,
