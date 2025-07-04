@@ -16,6 +16,9 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ length: 100, nullable: true })
+  name?: string;
+
   @Column({ unique: true })
   @Index()
   email: string;
@@ -39,7 +42,6 @@ export class User {
   // Relación uno a uno con Candidate
   @OneToOne(() => Candidate, (c) => c.user, {
     cascade: true,
-    eager: true,
   })
   @JoinColumn({ name: 'candidate_id' })
   candidate?: Candidate;

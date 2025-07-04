@@ -7,6 +7,12 @@ export class CandidateResponseDto {
   @ApiProperty({ description: 'Phone number', required: false })
   phone?: string;
 
+  @ApiProperty({ description: 'Full name', required: false })
+  name?: string;
+
+  @ApiProperty({ description: 'Profile picture URL', required: false })
+  profilePicture?: string;
+
   @ApiProperty({ description: 'Address', required: false })
   address?: string;
 

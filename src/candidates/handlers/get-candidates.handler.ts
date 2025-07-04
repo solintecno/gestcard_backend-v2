@@ -18,7 +18,7 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     const { page = 1, limit = 10 } = query.query;
 
     const [candidates, total] = await this.candidateRepository.findAndCount({
-      relations: ['workExperience', 'educationHistory', 'ratings'],
+      //relations: ['user'],
       skip: (page - 1) * limit,
       take: limit,
       order: { createdAt: 'DESC' },
@@ -38,6 +38,8 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
   private mapToResponseDto(candidate: Candidate): CandidateResponseDto {
     return {
       id: candidate.id,
+      name: candidate.user?.name,
+      profilePicture: candidate.user?.profilePicture,
       phone: candidate.phone,
       address: candidate.address,
       dateOfBirth: candidate.dateOfBirth,

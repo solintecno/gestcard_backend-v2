@@ -20,7 +20,7 @@ export class GetCandidateByIdHandler
 
     const candidate = await this.candidateRepository.findOne({
       where: { id },
-      relations: ['ratings'],
+      relations: ['user'],
     });
 
     if (!candidate) {
@@ -33,6 +33,8 @@ export class GetCandidateByIdHandler
   private mapToResponseDto(candidate: Candidate): CandidateResponseDto {
     return {
       id: candidate.id,
+      name: candidate.user?.name,
+      profilePicture: candidate.user?.profilePicture,
       phone: candidate.phone,
       address: candidate.address,
       dateOfBirth: candidate.dateOfBirth,

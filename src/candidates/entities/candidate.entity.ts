@@ -50,7 +50,9 @@ export class Candidate {
   skills: any[];
 
   // Relación uno a uno con User
-  @OneToOne(() => User, (u) => u.candidate)
+  @OneToOne(() => User, (u) => u.candidate, {
+    eager: true,
+  })
   user: User;
 
   // Historial laboral
@@ -61,13 +63,13 @@ export class Candidate {
       cascade: true,
     },
   )
-  workExperience: WorkExperience[];
+  workExperience?: WorkExperience[];
 
   // Historial educativo
   @OneToMany(() => Education, (education) => education.candidate, {
     cascade: true,
   })
-  educationHistory: Education[];
+  educationHistory?: Education[];
 
   // Aplicaciones a ofertas de trabajo
   @OneToMany(
@@ -77,7 +79,7 @@ export class Candidate {
       cascade: true,
     },
   )
-  jobApplications: JobApplication[];
+  jobApplications?: JobApplication[];
 
   // Historial de valoraciones
   @OneToMany(() => CandidateRating, (rating) => rating.candidate, {
