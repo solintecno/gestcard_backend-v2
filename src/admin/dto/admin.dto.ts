@@ -1,6 +1,7 @@
 import { IsOptional, IsBoolean, IsString, IsUUID } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '../../shared/enums';
+import { PaginatedResponseDto } from '../../common/dto/pagination.dto';
 
 export class GetAdminsQueryDto {
   @ApiPropertyOptional({ description: 'Filter by active status' })
@@ -35,20 +36,29 @@ export class PromoteToAdminDto {
 }
 
 export class AdminResponseDto {
+  @ApiProperty({ description: 'Admin ID' })
   id: string;
+
+  @ApiProperty({ description: 'Email address' })
   email: string;
+
+  @ApiProperty({ description: 'User role', enum: UserRole })
   role: UserRole;
+
+  @ApiProperty({ description: 'Is active' })
   isActive: boolean;
+
+  @ApiProperty({ description: 'Profile picture URL', required: false })
   profilePicture?: string;
+
+  @ApiProperty({ description: 'Candidate name', required: false })
   candidateName?: string;
+
+  @ApiProperty({ description: 'Creation date' })
   createdAt: Date;
+
+  @ApiProperty({ description: 'Last update date' })
   updatedAt: Date;
 }
 
-export class PaginatedAdminsResponseDto {
-  data: AdminResponseDto[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+export class PaginatedAdminsResponseDto extends PaginatedResponseDto<AdminResponseDto> {}

@@ -28,10 +28,14 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
 
     return {
       data: candidates.map((candidate) => this.mapToResponseDto(candidate)),
-      total,
-      page,
-      limit,
-      totalPages,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      },
     };
   }
 

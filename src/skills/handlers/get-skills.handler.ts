@@ -51,11 +51,13 @@ export class GetSkillsHandler implements IQueryHandler<GetSkillsQuery> {
 
     return {
       data: skills,
-      pagination: {
+      meta: {
         page,
         limit,
         total,
         totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
       },
     };
   }

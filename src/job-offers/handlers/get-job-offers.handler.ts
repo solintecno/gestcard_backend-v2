@@ -85,9 +85,9 @@ export class GetJobOffersHandler implements IQueryHandler<GetJobOffersQuery> {
     return {
       data: jobOffers,
       meta: {
-        total,
         page: query.page,
         limit: query.limit,
+        total,
         totalPages,
         hasNextPage: query.page < totalPages,
         hasPreviousPage: query.page > 1,

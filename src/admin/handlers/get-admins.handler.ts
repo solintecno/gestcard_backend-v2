@@ -48,12 +48,18 @@ export class GetAdminsHandler implements IQueryHandler<GetAdminsQuery> {
       updatedAt: user.updatedAt,
     }));
 
+    const totalPages = Math.ceil(total / limit);
+
     return {
       data,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      },
     };
   }
 }

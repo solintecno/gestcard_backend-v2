@@ -4,7 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/entities';
 import { Skill } from './skills/entities';
 import { JobApplication, JobOffer } from './job-offers/entities';
-import { Candidate, CandidateRating, Education, WorkExperience } from './candidates/entities';
+import {
+  Candidate,
+  CandidateRating,
+  Education,
+  WorkExperience,
+} from './candidates/entities';
 import { AuthModule } from './auth/auth.module';
 import { SkillsModule } from './skills/skills.module';
 import { JobOffersModule } from './job-offers/job-offers.module';
