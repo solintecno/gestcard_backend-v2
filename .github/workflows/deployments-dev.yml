@@ -1,3 +1,19 @@
+# Required GitHub Secrets:
+# - HOST: Server host for deployment
+# - USERNAME: SSH username for deployment
+# - PORT: SSH port for deployment  
+# - KEY: SSH private key for deployment
+# - GITHUB_TOKEN: GitHub token (automatically provided)
+#
+# Database and JWT values are hardcoded in the deployment script:
+# - DATABASE_HOST: localhost
+# - DATABASE_PORT: 5432
+# - DATABASE_USERNAME: postgres
+# - DATABASE_PASSWORD: postgres
+# - DATABASE_NAME: gestcard_db
+# - JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+# - JWT_EXPIRES_IN: 7d
+
 name: deployments-dev
 on:
   push:
@@ -53,4 +69,16 @@ jobs:
             
             # Ejecutar el nuevo contenedor
             echo "Running the new container..."
-            sudo docker run -d --name backen_gestcad_dev --restart=always -p 3001:3001 --network gestcad_dev ghcr.io/${{ github.repository_owner }}/back-gestcad:${{ github.ref_name }}
+            sudo docker run -d --name backen_gestcad_dev --restart=always \
+              -p 3001:3001 \
+              --network gestcad_dev \
+              -e DATABASE_HOST=localhost \
+              -e DATABASE_PORT=5432 \
+              -e DATABASE_USERNAME=postgres \
+              -e DATABASE_PASSWORD=postgres \
+              -e DATABASE_NAME=gestcard_db \
+              -e JWT_SECRET=your-super-secret-jwt-key-change-this-in-production \
+              -e JWT_EXPIRES_IN=7d \
+              -e PORT=3001 \
+              -e NODE_ENV=development \
+              ghcr.io/${{ github.repository_owner }}/back-gestcad:${{ github.ref_name }}
