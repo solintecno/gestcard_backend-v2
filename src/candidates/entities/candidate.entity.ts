@@ -13,7 +13,6 @@ import { Education } from './education.entity';
 import { WorkExperience } from './work-experience.entity';
 import { User } from '../../auth/entities/user.entity';
 import { JobApplication } from '../../job-offers/entities/job-application.entity';
-import { Skill } from 'src/skills';
 
 @Entity('candidates')
 export class Candidate {
@@ -47,7 +46,7 @@ export class Candidate {
       referencedColumnName: 'id',
     },
   })
-  skills: Skill[];
+  skills: any[];
 
   // Relación uno a uno con User
   @OneToOne(() => User, (u) => u.candidate)

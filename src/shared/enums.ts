@@ -15,3 +15,9 @@ export enum JobOfferStatus {
   INACTIVE = 'INACTIVE',
   CLOSED = 'CLOSED',
 }
+
+export enum WorkModality {
+  ON_SITE = 'ON_SITE',
+  REMOTE = 'REMOTE',
+  HYBRID = 'HYBRID',
+}

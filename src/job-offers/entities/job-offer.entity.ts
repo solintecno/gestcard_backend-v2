@@ -13,7 +13,11 @@ import {
 import { User } from '../../auth/entities';
 import { JobApplication } from './job-application.entity';
 import { Skill } from '../../skills/entities';
-import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import {
+  EmploymentType,
+  JobOfferStatus,
+  WorkModality,
+} from '../../shared/enums';
 
 @Entity('job_offers')
 export class JobOffer {
@@ -37,6 +41,9 @@ export class JobOffer {
 
   @Column({ type: 'varchar', length: 20, default: EmploymentType.FULL_TIME })
   employmentType: EmploymentType;
+
+  @Column({ type: 'varchar', length: 20, default: WorkModality.ON_SITE })
+  workModality: WorkModality;
 
   @Column({ type: 'varchar', length: 20, default: JobOfferStatus.ACTIVE })
   status: JobOfferStatus;
