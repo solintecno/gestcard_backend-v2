@@ -1,3 +1,5 @@
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+
 export class GetJobOffersQuery {
   constructor(
     public readonly page: number = 1,
@@ -5,12 +7,8 @@ export class GetJobOffersQuery {
     public readonly search?: string,
     public readonly location?: string,
     public readonly company?: string,
-    public readonly employmentType?:
-      | 'FULL_TIME'
-      | 'PART_TIME'
-      | 'CONTRACT'
-      | 'INTERNSHIP',
-    public readonly status?: 'ACTIVE' | 'INACTIVE' | 'CLOSED',
+    public readonly employmentType?: EmploymentType,
+    public readonly status?: JobOfferStatus,
     public readonly minSalary?: number,
     public readonly maxSalary?: number,
   ) {}

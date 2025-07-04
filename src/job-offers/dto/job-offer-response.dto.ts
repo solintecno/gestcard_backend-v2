@@ -1,4 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import { SkillResponseDto } from '../../skills/dto';
 
 export class JobOfferResponseDto {
   @ApiProperty({ description: 'ID de la oferta' })
@@ -19,11 +21,11 @@ export class JobOfferResponseDto {
   @ApiPropertyOptional({ description: 'Salario' })
   salary?: number;
 
-  @ApiProperty({ description: 'Tipo de empleo' })
-  employmentType: string;
+  @ApiProperty({ description: 'Tipo de empleo', enum: EmploymentType })
+  employmentType: EmploymentType;
 
-  @ApiProperty({ description: 'Estado' })
-  status: string;
+  @ApiProperty({ description: 'Estado', enum: JobOfferStatus })
+  status: JobOfferStatus;
 
   @ApiProperty({ description: 'Requisitos', type: [String] })
   requirements: string[];
@@ -39,6 +41,12 @@ export class JobOfferResponseDto {
 
   @ApiProperty({ description: 'ID del creador' })
   createdBy: string;
+
+  @ApiProperty({
+    description: 'Habilidades requeridas',
+    type: [SkillResponseDto],
+  })
+  skills: SkillResponseDto[];
 
   @ApiProperty({ description: 'Fecha de creación' })
   createdAt: Date;

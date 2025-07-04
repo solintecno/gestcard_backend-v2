@@ -9,6 +9,7 @@ import {
   IsArray,
   Min,
 } from 'class-validator';
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
 
 export class CreateJobOfferDto {
   @ApiProperty({ description: 'Título de la oferta de trabajo' })
@@ -39,21 +40,21 @@ export class CreateJobOfferDto {
 
   @ApiPropertyOptional({
     description: 'Tipo de empleo',
-    enum: ['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP'],
-    default: 'FULL_TIME',
+    enum: EmploymentType,
+    default: EmploymentType.FULL_TIME,
   })
   @IsOptional()
-  @IsEnum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP'])
-  employmentType?: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP';
+  @IsEnum(EmploymentType)
+  employmentType?: EmploymentType;
 
   @ApiPropertyOptional({
     description: 'Estado de la oferta',
-    enum: ['ACTIVE', 'INACTIVE', 'CLOSED'],
-    default: 'ACTIVE',
+    enum: JobOfferStatus,
+    default: JobOfferStatus.ACTIVE,
   })
   @IsOptional()
-  @IsEnum(['ACTIVE', 'INACTIVE', 'CLOSED'])
-  status?: 'ACTIVE' | 'INACTIVE' | 'CLOSED';
+  @IsEnum(JobOfferStatus)
+  status?: JobOfferStatus;
 
   @ApiPropertyOptional({
     description: 'Lista de requisitos',
@@ -82,4 +83,14 @@ export class CreateJobOfferDto {
   @IsOptional()
   @IsDateString()
   applicationDeadline?: string;
+
+  @ApiPropertyOptional({
+    description: 'IDs de las habilidades requeridas',
+    type: [String],
+    example: ['skill-uuid-1', 'skill-uuid-2'],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  skillIds?: string[];
 }

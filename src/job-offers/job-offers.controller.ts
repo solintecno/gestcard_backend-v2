@@ -49,7 +49,7 @@ import { ErrorResponseDto } from '../common';
 @ApiTags('job-offers')
 @Controller('job-offers')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 export class JobOffersController {
   private readonly logger = new Logger(JobOffersController.name);
 

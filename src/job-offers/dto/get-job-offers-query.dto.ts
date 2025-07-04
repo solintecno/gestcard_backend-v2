@@ -8,6 +8,7 @@ import {
   Max,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
 
 export class GetJobOffersQueryDto {
   @ApiPropertyOptional({ description: 'Número de página', default: 1 })
@@ -42,19 +43,19 @@ export class GetJobOffersQueryDto {
 
   @ApiPropertyOptional({
     description: 'Filtrar por tipo de empleo',
-    enum: ['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP'],
+    enum: EmploymentType,
   })
   @IsOptional()
-  @IsEnum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP'])
-  employmentType?: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP';
+  @IsEnum(EmploymentType)
+  employmentType?: EmploymentType;
 
   @ApiPropertyOptional({
     description: 'Filtrar por estado',
-    enum: ['ACTIVE', 'INACTIVE', 'CLOSED'],
+    enum: JobOfferStatus,
   })
   @IsOptional()
-  @IsEnum(['ACTIVE', 'INACTIVE', 'CLOSED'])
-  status?: 'ACTIVE' | 'INACTIVE' | 'CLOSED';
+  @IsEnum(JobOfferStatus)
+  status?: JobOfferStatus;
 
   @ApiPropertyOptional({ description: 'Salario mínimo' })
   @IsOptional()

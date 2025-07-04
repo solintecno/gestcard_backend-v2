@@ -21,7 +21,7 @@ export class GetJobOfferByIdHandler
 
     const jobOffer = await this.jobOfferRepository.findOne({
       where: { id: query.id },
-      relations: ['creator'],
+      relations: ['creator', 'skills'],
     });
 
     if (!jobOffer) {

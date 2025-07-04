@@ -50,7 +50,7 @@ import { GetCandidateByIdQuery, GetCandidatesQuery } from './queries';
 @ApiTags('candidates')
 @Controller('candidates')
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 export class CandidatesController {
   constructor(
     private readonly commandBus: CommandBus,

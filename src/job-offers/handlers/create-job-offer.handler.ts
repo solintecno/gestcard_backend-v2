@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { ConflictException, Logger } from '@nestjs/common';
 import { CreateJobOfferCommand } from '../commands';
 import { JobOffer } from '../entities';
+import { Skill } from '../../skills/entities';
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
 
 @CommandHandler(CreateJobOfferCommand)
 export class CreateJobOfferHandler
@@ -14,6 +16,8 @@ export class CreateJobOfferHandler
   constructor(
     @InjectRepository(JobOffer)
     private readonly jobOfferRepository: Repository<JobOffer>,
+    @InjectRepository(Skill)
+    private readonly skillRepository: Repository<Skill>,
   ) {}
 
   async execute(command: CreateJobOfferCommand): Promise<JobOffer> {
@@ -22,6 +26,13 @@ export class CreateJobOfferHandler
     );
 
     try {
+      // Buscar skills si se proporcionan IDs
+      let skills: Skill[] = [];
+      if (command.skillIds && command.skillIds.length > 0) {
+        skills = await this.skillRepository.findByIds(command.skillIds);
+        this.logger.log(`Found ${skills.length} skills for job offer`);
+      }
+
       const jobOffer = this.jobOfferRepository.create({
         title: command.title,
         description: command.description,
@@ -29,12 +40,13 @@ export class CreateJobOfferHandler
         location: command.location,
         createdBy: command.createdBy,
         salary: command.salary,
-        employmentType: command.employmentType || 'FULL_TIME',
-        status: command.status || 'ACTIVE',
+        employmentType: command.employmentType || EmploymentType.FULL_TIME,
+        status: command.status || JobOfferStatus.ACTIVE,
         requirements: command.requirements || [],
         benefits: command.benefits || [],
         experienceLevel: command.experienceLevel,
         applicationDeadline: command.applicationDeadline,
+        skills: skills,
       });
 
       const savedJobOffer = await this.jobOfferRepository.save(jobOffer);

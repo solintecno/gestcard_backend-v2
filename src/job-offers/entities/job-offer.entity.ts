@@ -7,9 +7,13 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { User } from '../../auth/entities';
 import { JobApplication } from './job-application.entity';
+import { Skill } from '../../skills/entities';
+import { EmploymentType, JobOfferStatus } from '../../shared/enums';
 
 @Entity('job_offers')
 export class JobOffer {
@@ -31,11 +35,11 @@ export class JobOffer {
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   salary?: number;
 
-  @Column({ type: 'varchar', length: 20, default: 'FULL_TIME' })
-  employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP';
+  @Column({ type: 'varchar', length: 20, default: EmploymentType.FULL_TIME })
+  employmentType: EmploymentType;
 
-  @Column({ type: 'varchar', length: 20, default: 'ACTIVE' })
-  status: 'ACTIVE' | 'INACTIVE' | 'CLOSED';
+  @Column({ type: 'varchar', length: 20, default: JobOfferStatus.ACTIVE })
+  status: JobOfferStatus;
 
   @Column({ type: 'text', array: true, default: [] })
   requirements: string[];
@@ -55,6 +59,21 @@ export class JobOffer {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'created_by' })
   creator: User;
+
+  // Habilidades requeridas para esta oferta
+  @ManyToMany(() => Skill, { cascade: true })
+  @JoinTable({
+    name: 'job_offer_skills',
+    joinColumn: {
+      name: 'job_offer_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'skill_id',
+      referencedColumnName: 'id',
+    },
+  })
+  skills: Skill[];
 
   // Aplicaciones de candidatos a esta oferta
   @OneToMany(

@@ -44,7 +44,7 @@ import { ErrorResponseDto } from '../common';
 @ApiTags('skills')
 @Controller('skills')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 export class SkillsController {
   private readonly logger = new Logger(SkillsController.name);
 

@@ -13,6 +13,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBadRequestResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { GoogleAuthDto, LoginResponseDto } from './dto';
 import { CreateGoogleUserCommand, LoginGoogleUserCommand } from './commands';
@@ -23,6 +24,7 @@ import { ErrorResponseDto } from '../common';
 @ApiTags('auth')
 @Controller('auth')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth('JWT-auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 

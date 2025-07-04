@@ -24,7 +24,8 @@ export class GetJobOffersHandler implements IQueryHandler<GetJobOffersQuery> {
 
     const queryBuilder = this.jobOfferRepository
       .createQueryBuilder('jobOffer')
-      .leftJoinAndSelect('jobOffer.creator', 'creator');
+      .leftJoinAndSelect('jobOffer.creator', 'creator')
+      .leftJoinAndSelect('jobOffer.skills', 'skills');
 
     // Apply filters
     if (query.search) {

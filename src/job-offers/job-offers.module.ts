@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JobOffersController } from './job-offers.controller';
 import { JobOffer } from './entities';
+import { Skill } from '../skills/entities';
 import {
   CreateJobOfferHandler,
   UpdateJobOfferHandler,
@@ -20,7 +21,7 @@ const CommandHandlers = [
 const QueryHandlers = [GetJobOffersHandler, GetJobOfferByIdHandler];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([JobOffer]), CqrsModule],
+  imports: [TypeOrmModule.forFeature([JobOffer, Skill]), CqrsModule],
   controllers: [JobOffersController],
   providers: [...CommandHandlers, ...QueryHandlers],
   exports: [...CommandHandlers, ...QueryHandlers],
