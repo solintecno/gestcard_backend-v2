@@ -72,7 +72,7 @@ jobs:
             docker run -d --name backen_gestcad_dev --restart=always \
               -p 3001:3001 \
               --network gestcad_dev \
-              -e DATABASE_HOST=localhost \
+              -e DATABASE_HOST=postgres-gestcard \
               -e DATABASE_PORT=5432 \
               -e DATABASE_USERNAME=postgres \
               -e DATABASE_PASSWORD=postgres \
