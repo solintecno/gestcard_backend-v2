@@ -40,8 +40,6 @@ export class CreateGoogleUserHandler
       const newUser = this.userRepository.create({
         email: googleAuthDto.email,
         password: hashedPassword,
-        firstName,
-        lastName,
         profilePicture: googleAuthDto.picture,
         role: UserRole.USER,
         isActive: true,

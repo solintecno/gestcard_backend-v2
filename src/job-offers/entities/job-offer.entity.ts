@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../../auth/entities';
+import { JobApplication } from './job-application.entity';
 
 @Entity('job_offers')
 export class JobOffer {
@@ -35,10 +37,10 @@ export class JobOffer {
   @Column({ type: 'varchar', length: 20, default: 'ACTIVE' })
   status: 'ACTIVE' | 'INACTIVE' | 'CLOSED';
 
-  @Column({ type: 'text', array: true, default: '{}' })
+  @Column({ type: 'text', array: true, default: [] })
   requirements: string[];
 
-  @Column({ type: 'text', array: true, default: '{}' })
+  @Column({ type: 'text', array: true, default: [] })
   benefits: string[];
 
   @Column({ type: 'varchar', length: 50, nullable: true })
@@ -53,6 +55,16 @@ export class JobOffer {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'created_by' })
   creator: User;
+
+  // Aplicaciones de candidatos a esta oferta
+  @OneToMany(
+    () => JobApplication,
+    (jobApplication) => jobApplication.jobOffer,
+    {
+      cascade: true,
+    },
+  )
+  applications: JobApplication[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -30,8 +30,6 @@ async function createAdminUser() {
     const adminUser = userRepository.create({
       email: 'admin@gestcard.com',
       password: hashedPassword,
-      firstName: 'Admin',
-      lastName: 'User',
       role: UserRole.ADMIN,
       isActive: true,
     });

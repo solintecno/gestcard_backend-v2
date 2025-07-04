@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDateString, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsDateString,
+  IsArray,
+} from 'class-validator';
 import { CreateWorkExperienceDto } from './create-work-experience.dto';
 import { CreateEducationDto } from './create-education.dto';
 

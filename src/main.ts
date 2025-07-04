@@ -34,12 +34,19 @@ async function bootstrap() {
   app.enableCors();
   logger.log('CORS enabled');
 
+  // Configurar prefijo global
+  app.setGlobalPrefix('api/v1');
+  logger.log('Global prefix set to api/v1');
+
   // Configurar Swagger
   const config = new DocumentBuilder()
     .setTitle('GestCard API')
     .setDescription('API para el sistema de gestión de tarjetas GestCard')
     .setVersion('1.0')
     .addTag('auth', 'Endpoints de autenticación y autorización')
+    .addTag('candidates', 'Endpoints de gestión de candidatos')
+    .addTag('job-offers', 'Endpoints de gestión de ofertas laborales')
+    .addTag('skills', 'Endpoints de gestión de habilidades')
     .addBearerAuth(
       {
         type: 'http',
@@ -54,7 +61,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document, {
+  SwaggerModule.setup('api/v1/docs', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
@@ -67,7 +74,7 @@ async function bootstrap() {
   await app.listen(port);
 
   logger.log(`🚀 Application is running on: http://localhost:${port}`);
-  logger.log(`📚 Swagger documentation: http://localhost:${port}/api/docs`);
+  logger.log(`📚 Swagger documentation: http://localhost:${port}/api/v1/docs`);
   logger.log('GestCard application started successfully!');
 }
 

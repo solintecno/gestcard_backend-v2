@@ -3,3 +3,6 @@ export * from './update-job-offer.dto';
 export * from './get-job-offers-query.dto';
 export * from './job-offer-response.dto';
 export * from './paginated-job-offers-response.dto';
+export * from './create-job-application.dto';
+export * from './update-job-application.dto';
+export * from './job-application-response.dto';

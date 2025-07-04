@@ -5,8 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { UserRole } from '../../shared/enums';
+import { Candidate } from '../../candidates/entities/candidate.entity';
 
 @Entity('users')
 export class User {
@@ -20,12 +23,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ name: 'first_name' })
-  firstName: string;
-
-  @Column({ name: 'last_name' })
-  lastName: string;
-
   @Column({
     type: 'enum',
     enum: UserRole,
@@ -38,6 +35,14 @@ export class User {
 
   @Column({ nullable: true, name: 'profile_picture' })
   profilePicture?: string;
+
+  // Relación uno a uno con Candidate
+  @OneToOne(() => Candidate, (c) => c.user, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'candidate_id' })
+  candidate?: Candidate;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

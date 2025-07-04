@@ -1,14 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDateString, IsUUID } from 'class-validator';
+import { IsString, IsOptional, IsDateString } from 'class-validator';
 
 export class CreateEducationDto {
   @ApiProperty({ description: 'Institution name' })
   @IsString()
   institution: string;
-
-  @ApiProperty({ description: 'Degree obtained' })
-  @IsString()
-  degree: string;
 
   @ApiProperty({ description: 'Field of study' })
   @IsString()
@@ -22,23 +18,4 @@ export class CreateEducationDto {
   @IsOptional()
   @IsDateString()
   endDate?: string;
-
-  @ApiProperty({ description: 'GPA or grade', required: false })
-  @IsOptional()
-  @IsString()
-  gpa?: string;
-
-  @ApiProperty({ description: 'Location', required: false })
-  @IsOptional()
-  @IsString()
-  location?: string;
-
-  @ApiProperty({ description: 'Description', required: false })
-  @IsOptional()
-  @IsString()
-  description?: string;
-
-  @ApiProperty({ description: 'Candidate ID' })
-  @IsUUID()
-  candidateId: string;
 }
