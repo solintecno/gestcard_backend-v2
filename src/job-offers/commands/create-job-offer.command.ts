@@ -8,6 +8,7 @@ export class CreateJobOfferCommand {
     public readonly location: string,
     public readonly createdBy: string,
     public readonly salary?: string,
+    public readonly currency?: string,
     public readonly employmentType?: EmploymentType,
     public readonly status?: JobOfferStatus,
     public readonly requirements?: string[],

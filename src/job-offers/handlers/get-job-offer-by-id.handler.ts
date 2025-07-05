@@ -1,6 +1,6 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, IsNull } from 'typeorm';
 import { NotFoundException, Logger } from '@nestjs/common';
 import { GetJobOfferByIdQuery } from '../queries';
 import { JobOffer } from '../entities';
@@ -20,7 +20,10 @@ export class GetJobOfferByIdHandler
     this.logger.log(`Getting job offer with ID: ${query.id}`);
 
     const jobOffer = await this.jobOfferRepository.findOne({
-      where: { id: query.id },
+      where: {
+        id: query.id,
+        deletedAt: IsNull(),
+      },
       relations: ['creator', 'skills'],
     });
 

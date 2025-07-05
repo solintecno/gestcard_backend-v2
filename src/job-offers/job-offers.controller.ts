@@ -144,6 +144,7 @@ export class JobOffersController {
       createJobOfferDto.location,
       user.id,
       createJobOfferDto.salary,
+      createJobOfferDto.currency,
       createJobOfferDto.employmentType,
       createJobOfferDto.status,
       createJobOfferDto.requirements,

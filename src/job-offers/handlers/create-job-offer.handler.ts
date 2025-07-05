@@ -40,6 +40,7 @@ export class CreateJobOfferHandler
         location: command.location,
         createdBy: command.createdBy,
         salary: command.salary,
+        currency: command.currency,
         employmentType: command.employmentType || EmploymentType.FULL_TIME,
         status: command.status || JobOfferStatus.ACTIVE,
         requirements: command.requirements || [],

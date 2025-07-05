@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
   ManyToOne,
   JoinColumn,
   OneToMany,
@@ -46,9 +47,6 @@ export class JobOffer {
   employmentType: EmploymentType;
 
   @Column({ type: 'varchar', length: 20, default: WorkModality.ON_SITE })
-  workModality: WorkModality;
-
-  @Column({ type: 'varchar', length: 20, default: JobOfferStatus.ACTIVE })
   status: JobOfferStatus;
 
   @Column({ type: 'text', array: true, default: [] })
@@ -100,4 +98,7 @@ export class JobOffer {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }

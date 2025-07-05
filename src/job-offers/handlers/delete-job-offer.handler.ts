@@ -28,11 +28,13 @@ export class DeleteJobOfferHandler
     }
 
     try {
-      await this.jobOfferRepository.remove(jobOffer);
-      this.logger.log(`Job offer deleted successfully with ID: ${command.id}`);
+      await this.jobOfferRepository.softRemove(jobOffer);
+      this.logger.log(
+        `Job offer soft deleted successfully with ID: ${command.id}`,
+      );
     } catch (error: any) {
       this.logger.error(
-        `Failed to delete job offer: ${(error as Error).message}`,
+        `Failed to soft delete job offer: ${(error as Error).message}`,
         (error as Error).stack,
       );
       throw error;
