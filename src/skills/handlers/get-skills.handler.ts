@@ -32,8 +32,8 @@ export class GetSkillsHandler implements IQueryHandler<GetSkillsQuery> {
       });
     }
 
-    // Ordenar por fecha de creación (más recientes primero)
-    queryBuilder.orderBy('skill.createdAt', 'DESC');
+    // Ordenar por nombre alfabéticamente
+    queryBuilder.orderBy('skill.name', 'ASC');
 
     // Calcular offset
     const offset = (page - 1) * limit;
@@ -44,13 +44,19 @@ export class GetSkillsHandler implements IQueryHandler<GetSkillsQuery> {
     // Aplicar paginación
     const skills = await queryBuilder.skip(offset).take(limit).getMany();
 
+    // Mapear a DTO para retornar solo los campos necesarios
+    const mappedSkills = skills.map((skill) => ({
+      id: skill.id,
+      name: skill.name,
+    }));
+
     // Calcular total de páginas
     const totalPages = Math.ceil(total / limit);
 
     this.logger.log(`Found ${skills.length} skills out of ${total} total`);
 
     return {
-      data: skills,
+      data: mappedSkills,
       meta: {
         page,
         limit,

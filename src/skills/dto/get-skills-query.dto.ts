@@ -33,7 +33,7 @@ export class GetSkillsQueryDto {
 
   @ApiProperty({
     description: 'Filtrar por nombre (búsqueda parcial)',
-    example: 'JavaScript',
+    example: '',
     required: false,
   })
   @IsOptional()

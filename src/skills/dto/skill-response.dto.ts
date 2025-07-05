@@ -12,16 +12,4 @@ export class SkillResponseDto {
     example: 'JavaScript',
   })
   name: string;
-
-  @ApiProperty({
-    description: 'Fecha de creación',
-    example: '2023-12-01T10:00:00.000Z',
-  })
-  createdAt: Date;
-
-  @ApiProperty({
-    description: 'Fecha de última actualización',
-    example: '2023-12-01T10:00:00.000Z',
-  })
-  updatedAt: Date;
 }

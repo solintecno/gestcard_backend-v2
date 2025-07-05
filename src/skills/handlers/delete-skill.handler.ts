@@ -28,7 +28,7 @@ export class DeleteSkillHandler implements ICommandHandler<DeleteSkillCommand> {
     }
 
     // Eliminar la skill
-    await this.skillRepository.delete(id);
+    await this.skillRepository.softDelete(id);
 
     this.logger.log(`Skill '${existingSkill.name}' deleted successfully`);
   }
