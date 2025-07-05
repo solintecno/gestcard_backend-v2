@@ -80,10 +80,15 @@ export class GetJobOffersHandler implements IQueryHandler<GetJobOffersQuery> {
 
     const [jobOffers, total] = await queryBuilder.getManyAndCount();
 
+    const mappedJobOffers = jobOffers.map((j) => ({
+      ...j,
+      skills: j.skills?.map((s) => ({ id: s.id, name: s.name })) ?? [],
+    }));
+
     const totalPages = Math.ceil(total / query.limit);
 
     return {
-      data: jobOffers,
+      data: mappedJobOffers,
       meta: {
         page: query.page,
         limit: query.limit,

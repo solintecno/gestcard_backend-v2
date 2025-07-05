@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ConflictException, Logger } from '@nestjs/common';
 import { CreateJobOfferCommand } from '../commands';
 import { JobOffer } from '../entities';
@@ -29,7 +29,9 @@ export class CreateJobOfferHandler
       // Buscar skills si se proporcionan IDs
       let skills: Skill[] = [];
       if (command.skillIds && command.skillIds.length > 0) {
-        skills = await this.skillRepository.findByIds(command.skillIds);
+        skills = await this.skillRepository.findBy({
+          id: In(command.skillIds),
+        });
         this.logger.log(`Found ${skills.length} skills for job offer`);
       }
 
