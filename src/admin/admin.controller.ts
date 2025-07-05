@@ -50,10 +50,10 @@ export class AdminController {
   async getAdmins(
     @Query() query: GetAdminsQueryDto,
   ): Promise<PaginatedAdminsResponseDto> {
-    const { isActive, search, page = 1, limit = 10 } = query;
+    const { isActive, search, page = 1, limit = 10, role } = query;
 
     return this.queryBus.execute(
-      new GetAdminsQuery(isActive, search, page, limit),
+      new GetAdminsQuery(isActive, search, page, limit, role),
     );
   }
 

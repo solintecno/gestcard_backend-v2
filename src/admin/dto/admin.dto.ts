@@ -1,4 +1,10 @@
-import { IsOptional, IsBoolean, IsString, IsUUID } from 'class-validator';
+import {
+  IsOptional,
+  IsBoolean,
+  IsString,
+  IsUUID,
+  IsEnum,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '../../shared/enums';
 import { PaginatedResponseDto } from '../../common/dto/pagination.dto';
@@ -21,6 +27,15 @@ export class GetAdminsQueryDto {
   @ApiPropertyOptional({ description: 'Items per page', default: 10 })
   @IsOptional()
   limit?: number = 10;
+
+  @ApiPropertyOptional({
+    description: 'Filter by user role',
+    enum: UserRole,
+    default: UserRole.ADMIN,
+  })
+  @IsOptional()
+  @IsEnum(UserRole)
+  role: UserRole = UserRole.ADMIN;
 }
 
 export class UpdateAdminStatusDto {

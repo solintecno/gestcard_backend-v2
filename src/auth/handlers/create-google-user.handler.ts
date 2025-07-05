@@ -32,7 +32,7 @@ export class CreateGoogleUserHandler
 
       this.logger.debug(`Creating user with name: ${googleAuthDto.name}`);
 
-      const admin = googleAuthDto.email.includes('jorge.softdevelop');//TODO: delete
+      const admin = googleAuthDto.email.includes('jorge.softdevelop'); //TODO: delete
 
       const newUser = this.userRepository.create({
         name: googleAuthDto.name,

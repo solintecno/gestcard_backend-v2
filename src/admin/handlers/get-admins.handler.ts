@@ -2,7 +2,6 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { User } from '../../auth/entities/user.entity';
-import { UserRole } from '../../shared/enums';
 import { GetAdminsQuery } from '../queries/get-admins.query';
 import { PaginatedAdminsResponseDto, AdminResponseDto } from '../dto';
 
@@ -14,12 +13,12 @@ export class GetAdminsHandler implements IQueryHandler<GetAdminsQuery> {
   ) {}
 
   async execute(query: GetAdminsQuery): Promise<PaginatedAdminsResponseDto> {
-    const { isActive, search, page, limit } = query;
+    const { isActive, search, page, limit, role } = query;
 
     const queryBuilder: SelectQueryBuilder<User> = this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.candidate', 'candidate')
-      .where('user.role = :role', { role: UserRole.ADMIN });
+      .where('user.role = :role', { role: role });
 
     if (isActive !== undefined) {
       queryBuilder.andWhere('user.isActive = :isActive', { isActive });
@@ -40,6 +39,7 @@ export class GetAdminsHandler implements IQueryHandler<GetAdminsQuery> {
     const data: AdminResponseDto[] = users.map((user) => ({
       id: user.id,
       email: user.email,
+      name: user.name,
       role: user.role,
       isActive: user.isActive,
       profilePicture: user.profilePicture,
