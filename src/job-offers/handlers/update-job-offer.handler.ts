@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { NotFoundException, Logger } from '@nestjs/common';
 import { UpdateJobOfferCommand } from '../commands';
 import { JobOffer } from '../entities';
+import { Skill } from 'src/skills';
 
 @CommandHandler(UpdateJobOfferCommand)
 export class UpdateJobOfferHandler
@@ -14,6 +15,8 @@ export class UpdateJobOfferHandler
   constructor(
     @InjectRepository(JobOffer)
     private readonly jobOfferRepository: Repository<JobOffer>,
+    @InjectRepository(Skill)
+    private readonly skillRepository: Repository<Skill>,
   ) {}
 
   async execute(command: UpdateJobOfferCommand): Promise<JobOffer> {
@@ -51,6 +54,11 @@ export class UpdateJobOfferHandler
       }
       if (command.applicationDeadline !== undefined) {
         jobOffer.applicationDeadline = command.applicationDeadline;
+      }
+      if (command.skillIds !== undefined) {
+        // Fetch skills from the database
+        const skills = await this.skillRepository.findByIds(command.skillIds);
+        jobOffer.skills = skills;
       }
 
       const updatedJobOffer = await this.jobOfferRepository.save(jobOffer);
