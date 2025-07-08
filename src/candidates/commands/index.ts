@@ -1,3 +1,4 @@
+export * from './create-full-candidate.command';
 export * from './create-candidate.command';
 export * from './update-candidate.command';
 export * from './delete-candidate.command';

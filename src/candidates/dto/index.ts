@@ -12,3 +12,4 @@ export * from './work-experience-response.dto';
 export * from './create-candidate-rating.dto';
 export * from './update-candidate-rating.dto';
 export * from './candidate-rating-response.dto';
+export * from './create-full-candidate.dto';

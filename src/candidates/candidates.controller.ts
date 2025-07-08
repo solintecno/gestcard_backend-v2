@@ -33,6 +33,7 @@ import {
   CreateWorkExperienceDto,
   UpdateWorkExperienceDto,
   WorkExperienceResponseDto,
+  CreateFullCandidateDto, // importado correctamente
 } from './dto';
 import {
   CreateCandidateCommand,
@@ -44,6 +45,7 @@ import {
   CreateWorkExperienceCommand,
   UpdateWorkExperienceCommand,
   DeleteWorkExperienceCommand,
+  CreateFullCandidateCommand, // importado correctamente
 } from './commands';
 import {
   GetCandidateByIdQuery,
@@ -264,6 +266,22 @@ export class CandidatesController {
   ): Promise<void> {
     return this.commandBus.execute(
       new DeleteWorkExperienceCommand(user.id, workExperienceId),
+    );
+  }
+
+  @Post('full')
+  @ApiOperation({ summary: 'Crear candidato con toda la información' })
+  @ApiResponse({
+    status: 201,
+    description: 'Candidato y toda su información creada exitosamente',
+    type: CandidateResponseDto,
+  })
+  async createFullCandidate(
+    @CurrentUser() user: User,
+    @Body() createFullCandidateDto: CreateFullCandidateDto, // ahora tipado correctamente
+  ): Promise<CandidateResponseDto> {
+    return this.commandBus.execute(
+      new CreateFullCandidateCommand(user.id, createFullCandidateDto),
     );
   }
 }

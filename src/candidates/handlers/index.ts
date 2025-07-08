@@ -11,3 +11,4 @@ export * from './update-work-experience.handler';
 export * from './delete-work-experience.handler';
 export * from './get-candidate-work-experience.handler';
 export * from './get-candidate-education-history.handler';
+export * from './create-full-candidate.handler';

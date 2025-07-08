@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CandidatesController } from './candidates.controller';
 import { Candidate, Education, WorkExperience } from './entities';
+import { User } from '../auth/entities/user.entity';
+import { Skill } from '../skills/entities/skill.entity';
 import {
   CreateCandidateHandler,
   UpdateCandidateHandler,
@@ -17,6 +19,7 @@ import {
   DeleteWorkExperienceHandler,
   GetCandidateWorkExperienceHandler,
   GetCandidateEducationHistoryHandler,
+  CreateFullCandidateHandler,
 } from './handlers';
 
 const CommandHandlers = [
@@ -29,6 +32,7 @@ const CommandHandlers = [
   CreateWorkExperienceHandler,
   UpdateWorkExperienceHandler,
   DeleteWorkExperienceHandler,
+  CreateFullCandidateHandler,
 ];
 
 const QueryHandlers = [
@@ -40,7 +44,13 @@ const QueryHandlers = [
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Candidate, Education, WorkExperience]),
+    TypeOrmModule.forFeature([
+      Candidate,
+      Education,
+      WorkExperience,
+      User,
+      Skill, // <-- Agregado aquí
+    ]),
     CqrsModule,
   ],
   controllers: [CandidatesController],
