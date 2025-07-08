@@ -52,6 +52,7 @@ import {
   GetCandidatesQuery,
   GetCandidateWorkExperienceQuery,
   GetCandidateEducationHistoryQuery,
+  GetFullCandidateByIdQuery,
 } from './queries';
 
 @ApiTags('candidates')
@@ -283,5 +284,17 @@ export class CandidatesController {
     return this.commandBus.execute(
       new CreateFullCandidateCommand(user.id, createFullCandidateDto),
     );
+  }
+
+  @Get('full/:id')
+  @ApiOperation({ summary: 'Obtener candidato completo por ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidato con toda su información',
+    type: CandidateResponseDto, // Puedes crear un DTO más completo si lo necesitas
+  })
+  async getFullCandidateById(@Param('id') id: string): Promise<any> {
+    // Busca el candidato con todas sus relaciones
+    return this.queryBus.execute(new GetFullCandidateByIdQuery(id));
   }
 }

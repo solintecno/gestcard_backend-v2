@@ -20,6 +20,7 @@ import {
   GetCandidateWorkExperienceHandler,
   GetCandidateEducationHistoryHandler,
   CreateFullCandidateHandler,
+  GetFullCandidateByIdHandler,
 } from './handlers';
 
 const CommandHandlers = [
@@ -35,11 +36,12 @@ const CommandHandlers = [
   CreateFullCandidateHandler,
 ];
 
-const QueryHandlers = [
+export const QueryHandlers = [
   GetCandidateByIdHandler,
   GetCandidatesHandler,
   GetCandidateWorkExperienceHandler,
   GetCandidateEducationHistoryHandler,
+  GetFullCandidateByIdHandler,
 ];
 
 @Module({
