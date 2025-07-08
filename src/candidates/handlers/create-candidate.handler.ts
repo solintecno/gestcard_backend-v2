@@ -22,9 +22,6 @@ export class CreateCandidateHandler
     const candidate = this.candidateRepository.create({
       id: userId,
       ...createCandidateDto,
-      dateOfBirth: createCandidateDto.dateOfBirth
-        ? new Date(createCandidateDto.dateOfBirth)
-        : undefined,
     });
 
     const savedCandidate = await this.candidateRepository.save(candidate);

@@ -31,9 +31,6 @@ export class UpdateCandidateHandler
     const updatedCandidate = await this.candidateRepository.save({
       ...candidate,
       ...updateCandidateDto,
-      dateOfBirth: updateCandidateDto.dateOfBirth
-        ? new Date(updateCandidateDto.dateOfBirth)
-        : candidate.dateOfBirth,
     });
 
     return this.mapToResponseDto(updatedCandidate);
