@@ -39,7 +39,6 @@ export class CreateCandidateHandler
       address: candidate.address,
       dateOfBirth: candidate.dateOfBirth,
       summary: candidate.summary,
-      skills: candidate.skills,
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };
