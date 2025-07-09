@@ -18,7 +18,7 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     const { page = 1, limit = 10 } = query.query;
 
     const [candidates, total] = await this.candidateRepository.findAndCount({
-      //relations: ['user'],
+      relations: ['user'],
       skip: (page - 1) * limit,
       take: limit,
       order: { createdAt: 'DESC' },
@@ -43,6 +43,7 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     return {
       id: candidate.id,
       name: candidate.user?.name,
+      email: candidate.user?.email, // agregado email
       profilePicture: candidate.user?.profilePicture,
       phone: candidate.phone,
       address: candidate.address,

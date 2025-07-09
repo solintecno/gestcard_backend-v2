@@ -37,4 +37,7 @@ export class CandidateResponseDto {
 
   @ApiProperty({ description: 'Last update date' })
   updatedAt: Date;
+
+  @ApiProperty({ description: 'Email address', required: false })
+  email?: string;
 }
