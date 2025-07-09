@@ -9,12 +9,14 @@ import {
   CandidateRating,
   Education,
   WorkExperience,
+  CandidateCVHistory,
 } from './candidates/entities';
 import { AuthModule } from './auth/auth.module';
 import { SkillsModule } from './skills/skills.module';
 import { JobOffersModule } from './job-offers/job-offers.module';
 import { CandidatesModule } from './candidates/candidates.module';
 import { AdminModule } from './admin/admin.module';
+import { ResourcesModule } from './resources/resources.module';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { AdminModule } from './admin/admin.module';
           Education,
           WorkExperience,
           CandidateRating,
+          CandidateCVHistory,
         ],
         synchronize: true,
         //logging: configService.get('NODE_ENV') === 'development',
@@ -51,6 +54,7 @@ import { AdminModule } from './admin/admin.module';
     JobOffersModule,
     CandidatesModule,
     AdminModule,
+    ResourcesModule,
   ],
 })
 export class AppModule {}

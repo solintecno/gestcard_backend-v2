@@ -17,6 +17,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../security/guards';
 import { CurrentUser, Public } from '../security/decorators';
@@ -53,7 +54,9 @@ import {
   GetCandidateWorkExperienceQuery,
   GetCandidateEducationHistoryQuery,
   GetFullCandidateByIdQuery,
+  GetCandidateCVHistoryQuery,
 } from './queries';
+import { CandidateCVHistory } from './entities/candidate-cv-history.entity';
 
 @ApiTags('candidates')
 @Controller('candidates')
@@ -296,5 +299,14 @@ export class CandidatesController {
   async getFullCandidateById(@Param('id') id: string): Promise<any> {
     // Busca el candidato con todas sus relaciones
     return this.queryBus.execute(new GetFullCandidateByIdQuery(id));
+  }
+
+  @Get(':id/cv-history')
+  @ApiOperation({ summary: 'Obtiene el historial de CVs de un candidato' })
+  @ApiOkResponse({ type: [CandidateCVHistory] })
+  async getCVHistory(
+    @Param('id') candidateId: string,
+  ): Promise<CandidateCVHistory[]> {
+    return this.queryBus.execute(new GetCandidateCVHistoryQuery(candidateId));
   }
 }

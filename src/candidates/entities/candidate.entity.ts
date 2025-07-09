@@ -14,6 +14,7 @@ import { WorkExperience } from './work-experience.entity';
 import { User } from '../../auth/entities/user.entity';
 import { JobApplication } from '../../job-offers/entities/job-application.entity';
 import { CandidateRating } from './candidate-rating.entity';
+import { CandidateCVHistory } from './candidate-cv-history.entity';
 
 @Entity('candidates')
 export class Candidate {
@@ -87,6 +88,10 @@ export class Candidate {
     eager: true,
   })
   ratings?: CandidateRating[];
+
+  // Historial de CVs
+  @OneToMany(() => CandidateCVHistory, (cvHistory) => cvHistory.candidate)
+  cvHistory: CandidateCVHistory[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

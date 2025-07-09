@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CandidatesController } from './candidates.controller';
-import { Candidate, Education, WorkExperience } from './entities';
+import {
+  Candidate,
+  Education,
+  WorkExperience,
+  CandidateCVHistory,
+} from './entities';
 import { User } from '../auth/entities/user.entity';
 import { Skill } from '../skills/entities/skill.entity';
 import {
@@ -50,6 +55,7 @@ export const QueryHandlers = [
       Candidate,
       Education,
       WorkExperience,
+      CandidateCVHistory,
       User,
       Skill, // <-- Agregado aquí
     ]),
