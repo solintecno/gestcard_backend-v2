@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString, IsNumber, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class GetCandidatesQueryDto {
   @ApiProperty({
@@ -44,4 +44,31 @@ export class GetCandidatesQueryDto {
   @IsOptional()
   @IsString()
   status?: string;
+
+  @ApiProperty({
+    description: 'Include skills in response',
+    required: false,
+    type: Boolean,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === true || value === 'true')
+  skills?: boolean;
+
+  @ApiProperty({
+    description: 'Include work experience in response',
+    required: false,
+    type: Boolean,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === true || value === 'true')
+  workExperience?: boolean;
+
+  @ApiProperty({
+    description: 'Include education history in response',
+    required: false,
+    type: Boolean,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === true || value === 'true')
+  education?: boolean;
 }

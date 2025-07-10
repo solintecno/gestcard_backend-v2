@@ -15,10 +15,22 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
   async execute(
     query: GetCandidatesQuery,
   ): Promise<PaginatedCandidatesResponseDto> {
-    const { page = 1, limit = 10 } = query.query;
+    const {
+      page = 1,
+      limit = 10,
+      skills = false,
+      workExperience = false,
+      education = false,
+    } = query.query;
+
+    // Construir relaciones dinámicamente
+    const relations = ['user'];
+    if (skills) relations.push('skills');
+    if (workExperience) relations.push('workExperience');
+    if (education) relations.push('educationHistory');
 
     const [candidates, total] = await this.candidateRepository.findAndCount({
-      relations: ['user'],
+      relations,
       skip: (page - 1) * limit,
       take: limit,
       order: { createdAt: 'DESC' },
@@ -27,7 +39,9 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     const totalPages = Math.ceil(total / limit);
 
     return {
-      data: candidates.map((candidate) => this.mapToResponseDto(candidate)),
+      data: candidates.map((candidate) =>
+        this.mapToResponseDto(candidate, { skills, workExperience, education }),
+      ),
       meta: {
         page,
         limit,
@@ -39,17 +53,19 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     };
   }
 
-  private mapToResponseDto(candidate: Candidate): CandidateResponseDto {
-    return {
+  private mapToResponseDto(
+    candidate: Candidate,
+    opts?: { skills?: boolean; workExperience?: boolean; education?: boolean },
+  ): CandidateResponseDto {
+    const dto: CandidateResponseDto = {
       id: candidate.id,
       name: candidate.user?.name,
-      email: candidate.user?.email, // agregado email
+      email: candidate.user?.email,
       profilePicture: candidate.user?.profilePicture,
       phone: candidate.phone,
       address: candidate.address,
       dateOfBirth: candidate.dateOfBirth,
       summary: candidate.summary,
-      skills: candidate.skills,
       rating:
         candidate.ratings && candidate.ratings.length > 0
           ? candidate.ratings.reduce((acc, val) => acc + val.rating, 0) /
@@ -58,5 +74,33 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
       createdAt: candidate.createdAt,
       updatedAt: candidate.updatedAt,
     };
+    if (opts?.skills === true) dto.skills = candidate.skills;
+    if (opts?.workExperience === true) {
+      dto.workExperience = candidate.workExperience?.map((w) => ({
+        id: w.id,
+        company: w.company,
+        position: w.position,
+        startDate:
+          w.startDate instanceof Date ? w.startDate.toISOString() : w.startDate,
+        endDate:
+          w.endDate instanceof Date ? w.endDate.toISOString() : w.endDate,
+        description: w.description,
+        location: w.location,
+        createdAt: w.createdAt,
+        updatedAt: w.updatedAt,
+      }));
+    }
+    if (opts?.education === true) {
+      dto.educationHistory = candidate.educationHistory?.map((e) => ({
+        id: e.id,
+        institution: e.institution,
+        field: e.field,
+        startDate: e.startDate,
+        endDate: e.endDate,
+        createdAt: e.createdAt,
+        updatedAt: e.updatedAt,
+      }));
+    }
+    return dto;
   }
 }

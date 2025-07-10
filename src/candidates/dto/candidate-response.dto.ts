@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { WorkExperienceResponseDto } from './work-experience-response.dto';
+import { EducationResponseDto } from './education-response.dto';
 
 export class CandidateResponseDto {
   @ApiProperty({ description: 'Unique identifier' })
@@ -22,7 +24,7 @@ export class CandidateResponseDto {
   @ApiProperty({ description: 'Professional summary', required: false })
   summary?: string;
 
-  @ApiProperty({ description: 'Skills', required: false })
+  @ApiProperty({ description: 'Skills', required: false, type: [String] })
   skills?: string[];
 
   @ApiProperty({
@@ -40,4 +42,18 @@ export class CandidateResponseDto {
 
   @ApiProperty({ description: 'Email address', required: false })
   email?: string;
+
+  @ApiProperty({
+    description: 'Work experience',
+    required: false,
+    type: [WorkExperienceResponseDto],
+  })
+  workExperience?: WorkExperienceResponseDto[];
+
+  @ApiProperty({
+    description: 'Education history',
+    required: false,
+    type: [EducationResponseDto],
+  })
+  educationHistory?: EducationResponseDto[];
 }
