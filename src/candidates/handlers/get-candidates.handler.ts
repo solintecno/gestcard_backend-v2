@@ -24,50 +24,37 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
       skillsFilter,
     } = query.query;
 
-    // Construir relaciones dinámicamente
-    const relations = ['user'];
-    if (skills) relations.push('skills');
-    if (workExperience) relations.push('workExperience');
-    if (education) relations.push('educationHistory');
+    const queryBuilder = this.candidateRepository
+      .createQueryBuilder('candidate')
+      .leftJoinAndSelect('candidate.user', 'user')
+      .orderBy('candidate.createdAt', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
 
-    let candidates: Candidate[] = [];
-    let total = 0;
-
-    if (skillsFilter) {
-      const skillNames = skillsFilter
-        .split(',')
-        .map((name: string) => name.trim());
-      const qb = this.candidateRepository
-        .createQueryBuilder('candidate')
-        .leftJoinAndSelect('candidate.user', 'user');
-      if (skills) {
-        qb.leftJoinAndSelect('candidate.skills', 'skills');
-      }
-      if (workExperience) {
-        qb.leftJoinAndSelect('candidate.workExperience', 'workExperience');
-      }
-      if (education) {
-        qb.leftJoinAndSelect('candidate.educationHistory', 'educationHistory');
-      }
-      qb.innerJoin(
-        'candidate.skills',
-        'filterSkill',
-        'filterSkill.name IN (:...skillNames)',
-        { skillNames },
-      );
-      qb.skip((page - 1) * limit)
-        .take(limit)
-        .orderBy('candidate.createdAt', 'DESC');
-      candidates = await qb.getMany();
-      total = await qb.getCount();
-    } else {
-      [candidates, total] = await this.candidateRepository.findAndCount({
-        relations,
-        skip: (page - 1) * limit,
-        take: limit,
-        order: { createdAt: 'DESC' },
-      });
+    if (skills) {
+      queryBuilder.leftJoinAndSelect('candidate.skills', 'skills');
     }
+    if (workExperience) {
+      queryBuilder.leftJoinAndSelect(
+        'candidate.workExperience',
+        'workExperience',
+      );
+    }
+    if (education) {
+      queryBuilder.leftJoinAndSelect(
+        'candidate.educationHistory',
+        'educationHistory',
+      );
+    }
+    if (skillsFilter?.length) {
+      queryBuilder
+        .leftJoin('candidate.skills', 'filterSkill')
+        .andWhere('filterSkill.name IN (:...skillNames)', {
+          skillNames: skillsFilter,
+        });
+    }
+
+    const [candidates, total] = await queryBuilder.getManyAndCount();
 
     const totalPages = Math.ceil(total / limit);
 

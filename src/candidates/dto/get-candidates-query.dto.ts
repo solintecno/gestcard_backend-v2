@@ -79,6 +79,14 @@ export class GetCandidatesQueryDto {
     example: 'JavaScript,Java,Python',
   })
   @IsOptional()
-  @IsString()
-  skillsFilter?: string;
+  @Transform(({ value }) => {
+    if (typeof value !== 'string') {
+      return [];
+    }
+    return value
+      .split(',')
+      .map((skill: string) => skill.trim())
+      .filter((skill: string) => skill !== '');
+  })
+  skillsFilter?: string[];
 }
