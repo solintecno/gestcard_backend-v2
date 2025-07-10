@@ -10,6 +10,7 @@ import {
 } from './entities';
 import { User } from '../auth/entities/user.entity';
 import { Skill } from '../skills/entities/skill.entity';
+import { JobOffer, JobApplication } from '../job-offers/entities';
 import {
   CreateCandidateHandler,
   UpdateCandidateHandler,
@@ -26,6 +27,7 @@ import {
   GetCandidateEducationHistoryHandler,
   CreateFullCandidateHandler,
   GetFullCandidateByIdHandler,
+  ApplyToJobOfferHandler,
 } from './handlers';
 
 const CommandHandlers = [
@@ -39,6 +41,7 @@ const CommandHandlers = [
   UpdateWorkExperienceHandler,
   DeleteWorkExperienceHandler,
   CreateFullCandidateHandler,
+  ApplyToJobOfferHandler,
 ];
 
 export const QueryHandlers = [
@@ -58,6 +61,8 @@ export const QueryHandlers = [
       CandidateCVHistory,
       User,
       Skill, // <-- Agregado aquí
+      JobOffer, // <-- Necesario para el handler de aplicar a oferta
+      JobApplication, // <-- Necesario para el handler de aplicar a oferta
     ]),
     CqrsModule,
   ],

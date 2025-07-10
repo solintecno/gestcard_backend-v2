@@ -35,6 +35,7 @@ import {
   UpdateWorkExperienceDto,
   WorkExperienceResponseDto,
   CreateFullCandidateDto, // importado correctamente
+  ApplyToJobOfferDto, // nuevo DTO para aplicar a oferta
 } from './dto';
 import {
   CreateCandidateCommand,
@@ -47,6 +48,7 @@ import {
   UpdateWorkExperienceCommand,
   DeleteWorkExperienceCommand,
   CreateFullCandidateCommand, // importado correctamente
+  ApplyToJobOfferCommand, // nuevo comando para aplicar a oferta
 } from './commands';
 import {
   GetCandidateByIdQuery,
@@ -308,5 +310,20 @@ export class CandidatesController {
     @Param('id') candidateId: string,
   ): Promise<CandidateCVHistory[]> {
     return this.queryBus.execute(new GetCandidateCVHistoryQuery(candidateId));
+  }
+
+  @Post('apply')
+  @ApiOperation({ summary: 'Aplicar a una oferta de trabajo' })
+  @ApiResponse({
+    status: 201,
+    description: 'Aplicación a la oferta realizada exitosamente',
+  })
+  async applyToJobOffer(
+    @Body() applyToJobOfferDto: ApplyToJobOfferDto,
+    @CurrentUser() user: User,
+  ): Promise<any> {
+    return this.commandBus.execute(
+      new ApplyToJobOfferCommand(user.id, applyToJobOfferDto.jobOfferId),
+    );
   }
 }

@@ -13,3 +13,4 @@ export * from './create-candidate-rating.dto';
 export * from './update-candidate-rating.dto';
 export * from './candidate-rating-response.dto';
 export * from './create-full-candidate.dto';
+export * from './apply-to-job-offer.dto';

@@ -8,3 +8,4 @@ export * from './delete-education.command';
 export * from './create-work-experience.command';
 export * from './update-work-experience.command';
 export * from './delete-work-experience.command';
+export * from './apply-to-job-offer.command';
