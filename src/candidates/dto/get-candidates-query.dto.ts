@@ -71,4 +71,14 @@ export class GetCandidatesQueryDto {
   @IsOptional()
   @Transform(({ value }) => value === true || value === 'true')
   education?: boolean;
+
+  @ApiProperty({
+    description: 'Nombres de skills para filtrar (separados por coma)',
+    required: false,
+    type: String,
+    example: 'JavaScript,Java,Python',
+  })
+  @IsOptional()
+  @IsString()
+  skillsFilter?: string;
 }

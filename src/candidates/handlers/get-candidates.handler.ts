@@ -21,6 +21,7 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
       skills = false,
       workExperience = false,
       education = false,
+      skillsFilter,
     } = query.query;
 
     // Construir relaciones dinámicamente
@@ -29,12 +30,44 @@ export class GetCandidatesHandler implements IQueryHandler<GetCandidatesQuery> {
     if (workExperience) relations.push('workExperience');
     if (education) relations.push('educationHistory');
 
-    const [candidates, total] = await this.candidateRepository.findAndCount({
-      relations,
-      skip: (page - 1) * limit,
-      take: limit,
-      order: { createdAt: 'DESC' },
-    });
+    let candidates: Candidate[] = [];
+    let total = 0;
+
+    if (skillsFilter) {
+      const skillNames = skillsFilter
+        .split(',')
+        .map((name: string) => name.trim());
+      const qb = this.candidateRepository
+        .createQueryBuilder('candidate')
+        .leftJoinAndSelect('candidate.user', 'user');
+      if (skills) {
+        qb.leftJoinAndSelect('candidate.skills', 'skills');
+      }
+      if (workExperience) {
+        qb.leftJoinAndSelect('candidate.workExperience', 'workExperience');
+      }
+      if (education) {
+        qb.leftJoinAndSelect('candidate.educationHistory', 'educationHistory');
+      }
+      qb.innerJoin(
+        'candidate.skills',
+        'filterSkill',
+        'filterSkill.name IN (:...skillNames)',
+        { skillNames },
+      );
+      qb.skip((page - 1) * limit)
+        .take(limit)
+        .orderBy('candidate.createdAt', 'DESC');
+      candidates = await qb.getMany();
+      total = await qb.getCount();
+    } else {
+      [candidates, total] = await this.candidateRepository.findAndCount({
+        relations,
+        skip: (page - 1) * limit,
+        take: limit,
+        order: { createdAt: 'DESC' },
+      });
+    }
 
     const totalPages = Math.ceil(total / limit);
 
