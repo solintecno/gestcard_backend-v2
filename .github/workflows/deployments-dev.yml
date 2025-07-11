@@ -81,4 +81,5 @@ jobs:
               -e JWT_EXPIRES_IN=7d \
               -e PORT=3001 \
               -e NODE_ENV=development \
+              -v /gestcad/uploads:/app/uploads \
               ghcr.io/${{ github.repository_owner }}/back-gestcad:${{ github.ref_name }}

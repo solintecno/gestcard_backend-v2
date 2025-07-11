@@ -15,3 +15,4 @@ export * from './create-full-candidate.handler';
 export * from './get-full-candidate-by-id.handler';
 export * from './apply-to-job-offer.handler';
 export * from './get-candidate-job-applications.handler';
+export * from './get-candidate-cv-history.handler';
