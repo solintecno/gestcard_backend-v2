@@ -113,13 +113,12 @@ export class ResourcesController {
     if (Array.isArray(history) && history.length > 0) {
       const filePath = history[0].cvPath;
       const fileName = filePath.split('/').pop() || 'cv.pdf';
-      const uploadsDir = path.join(process.cwd(), 'uploads');
       res.setHeader(
         'Content-Disposition',
         `attachment; filename="${fileName}"`,
       );
       res.setHeader('Content-Type', 'application/pdf');
-      return res.sendFile(filePath, { root: uploadsDir });
+      return res.sendFile(filePath);
     }
     return res.status(404).json({ message: 'CV no encontrado' });
   }
