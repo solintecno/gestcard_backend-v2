@@ -6,3 +6,4 @@ export * from './paginated-job-offers-response.dto';
 export * from './create-job-application.dto';
 export * from './update-job-application.dto';
 export * from './job-application-response.dto';
+export * from './paginated-job-applications-response.dto';

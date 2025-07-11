@@ -57,8 +57,10 @@ import {
   GetCandidateEducationHistoryQuery,
   GetFullCandidateByIdQuery,
   GetCandidateCVHistoryQuery,
+  GetCandidateJobApplicationsQuery,
 } from './queries';
 import { CandidateCVHistory } from './entities/candidate-cv-history.entity';
+import { PaginatedJobApplicationsResponseDto } from 'src/job-offers/dto/paginated-job-applications-response.dto';
 
 @ApiTags('candidates')
 @Controller('candidates')
@@ -324,6 +326,26 @@ export class CandidatesController {
   ): Promise<any> {
     return this.commandBus.execute(
       new ApplyToJobOfferCommand(user.id, applyToJobOfferDto.jobOfferId),
+    );
+  }
+
+  @Get(':id/applications')
+  @ApiOperation({ summary: 'Listar aplicaciones del candidato' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista paginada de aplicaciones del candidato',
+  })
+  async getJobApplications(
+    @Param('id') candidateId: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<PaginatedJobApplicationsResponseDto> {
+    return this.queryBus.execute(
+      new GetCandidateJobApplicationsQuery(
+        candidateId,
+        Number(page),
+        Number(limit),
+      ),
     );
   }
 }

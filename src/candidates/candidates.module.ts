@@ -28,6 +28,7 @@ import {
   CreateFullCandidateHandler,
   GetFullCandidateByIdHandler,
   ApplyToJobOfferHandler,
+  GetCandidateJobApplicationsHandler,
 } from './handlers';
 
 const CommandHandlers = [
@@ -50,6 +51,7 @@ export const QueryHandlers = [
   GetCandidateWorkExperienceHandler,
   GetCandidateEducationHistoryHandler,
   GetFullCandidateByIdHandler,
+  GetCandidateJobApplicationsHandler,
 ];
 
 @Module({
