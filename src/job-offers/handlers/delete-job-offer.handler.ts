@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { NotFoundException, Logger } from '@nestjs/common';
 import { DeleteJobOfferCommand } from '../commands';
 import { JobOffer } from '../entities';
+import { JobApplication } from '../entities/job-application.entity';
 
 @CommandHandler(DeleteJobOfferCommand)
 export class DeleteJobOfferHandler
@@ -14,6 +15,8 @@ export class DeleteJobOfferHandler
   constructor(
     @InjectRepository(JobOffer)
     private readonly jobOfferRepository: Repository<JobOffer>,
+    @InjectRepository(JobApplication)
+    private readonly jobApplicationRepository: Repository<JobApplication>,
   ) {}
 
   async execute(command: DeleteJobOfferCommand): Promise<void> {
@@ -21,6 +24,7 @@ export class DeleteJobOfferHandler
 
     const jobOffer = await this.jobOfferRepository.findOne({
       where: { id: command.id },
+      relations: ['applications'],
     });
 
     if (!jobOffer) {
@@ -28,6 +32,15 @@ export class DeleteJobOfferHandler
     }
 
     try {
+      // Soft delete de todas las aplicaciones asociadas
+      if (jobOffer.applications && jobOffer.applications.length > 0) {
+        for (const application of jobOffer.applications) {
+          await this.jobApplicationRepository.softRemove(application);
+        }
+        this.logger.log(
+          `Soft deleted ${jobOffer.applications.length} applications for job offer ${command.id}`,
+        );
+      }
       await this.jobOfferRepository.softRemove(jobOffer);
       this.logger.log(
         `Job offer soft deleted successfully with ID: ${command.id}`,
