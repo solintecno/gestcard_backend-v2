@@ -46,8 +46,11 @@ export class JobOffer {
   @Column({ type: 'varchar', length: 20, default: EmploymentType.FULL_TIME })
   employmentType: EmploymentType;
 
-  @Column({ type: 'varchar', length: 20, default: WorkModality.ON_SITE })
+  @Column({ type: 'varchar', length: 20, default: JobOfferStatus.ACTIVE })
   status: JobOfferStatus;
+
+  @Column({ type: 'varchar', length: 20, default: WorkModality.REMOTE })
+  workModality: WorkModality;
 
   @Column({ type: 'text', array: true, default: [] })
   requirements: string[];

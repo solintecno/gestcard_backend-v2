@@ -6,6 +6,7 @@ import { CreateJobOfferCommand } from '../commands';
 import { JobOffer } from '../entities';
 import { Skill } from '../../skills/entities';
 import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import { WorkModality } from '../../shared/enums';
 
 @CommandHandler(CreateJobOfferCommand)
 export class CreateJobOfferHandler
@@ -50,6 +51,7 @@ export class CreateJobOfferHandler
         experienceLevel: command.experienceLevel,
         applicationDeadline: command.applicationDeadline,
         skills: skills,
+        workModality: command.workModality || WorkModality.ON_SITE,
       });
 
       const savedJobOffer = await this.jobOfferRepository.save(jobOffer);

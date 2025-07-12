@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import { WorkModality } from '../../shared/enums';
 import { SkillResponseDto } from '../../skills/dto';
 
 export class JobOfferResponseDto {
@@ -53,4 +54,7 @@ export class JobOfferResponseDto {
 
   @ApiProperty({ description: 'Fecha de actualización' })
   updatedAt: Date;
+
+  @ApiProperty({ description: 'Modalidad de trabajo', enum: WorkModality })
+  workModality: WorkModality;
 }

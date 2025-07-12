@@ -8,6 +8,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import { WorkModality } from '../../shared/enums';
 
 export class CreateJobOfferDto {
   @ApiProperty({ description: 'Título de la oferta de trabajo' })
@@ -29,6 +30,15 @@ export class CreateJobOfferDto {
   @IsString()
   @IsNotEmpty()
   location: string;
+
+  @ApiPropertyOptional({
+    description: 'Modalidad de trabajo',
+    enum: WorkModality,
+    default: WorkModality.ON_SITE,
+  })
+  @IsOptional()
+  @IsEnum(WorkModality)
+  workModality?: WorkModality;
 
   @ApiPropertyOptional({
     description:
