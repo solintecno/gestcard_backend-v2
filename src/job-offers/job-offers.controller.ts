@@ -199,6 +199,7 @@ export class JobOffersController {
         : undefined,
       updateJobOfferDto.skillIds,
       updateJobOfferDto.workModality,
+      updateJobOfferDto.currency,
     );
 
     return this.commandBus.execute(command);

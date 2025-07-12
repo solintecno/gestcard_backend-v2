@@ -20,5 +20,6 @@ export class UpdateJobOfferCommand {
     public readonly applicationDeadline?: Date,
     public readonly skillIds?: string[],
     public readonly workModality?: WorkModality,
+    public readonly currency?: string,
   ) {}
 }

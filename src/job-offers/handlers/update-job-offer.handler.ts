@@ -63,6 +63,9 @@ export class UpdateJobOfferHandler
       if (command.workModality !== undefined) {
         jobOffer.workModality = command.workModality;
       }
+      if (command.currency !== undefined) {
+        jobOffer.currency = command.currency;
+      }
 
       const updatedJobOffer = await this.jobOfferRepository.save(jobOffer);
 
