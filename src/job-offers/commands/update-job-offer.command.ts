@@ -1,4 +1,8 @@
-import { EmploymentType, JobOfferStatus } from '../../shared/enums';
+import {
+  EmploymentType,
+  JobOfferStatus,
+  WorkModality,
+} from '../../shared/enums';
 
 export class UpdateJobOfferCommand {
   constructor(
@@ -15,5 +19,6 @@ export class UpdateJobOfferCommand {
     public readonly experienceLevel?: string,
     public readonly applicationDeadline?: Date,
     public readonly skillIds?: string[],
+    public readonly workModality?: WorkModality,
   ) {}
 }

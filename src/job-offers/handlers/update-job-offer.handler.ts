@@ -60,6 +60,9 @@ export class UpdateJobOfferHandler
         const skills = await this.skillRepository.findByIds(command.skillIds);
         jobOffer.skills = skills;
       }
+      if (command.workModality !== undefined) {
+        jobOffer.workModality = command.workModality;
+      }
 
       const updatedJobOffer = await this.jobOfferRepository.save(jobOffer);
 

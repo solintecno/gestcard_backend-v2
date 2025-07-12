@@ -198,6 +198,7 @@ export class JobOffersController {
         ? new Date(updateJobOfferDto.applicationDeadline)
         : undefined,
       updateJobOfferDto.skillIds,
+      updateJobOfferDto.workModality,
     );
 
     return this.commandBus.execute(command);
